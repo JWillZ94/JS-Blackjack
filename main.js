@@ -31,8 +31,11 @@ let cashDisplay = document.getElementById('cash');
 let cash = 1000;
 let chooseModal = document.getElementById('choose-modal');
 let playAgainModal = document.getElementById('play-again-modal');
-let playAgain = document.getElementById('play-again');
+let playAgainBtn = document.getElementById('play-again');
 let startOver = document.getElementById('start-over');
+let playAgainMsg = document.getElementById('play-again-msg');
+let placeBet = document.getElementById('place-bet');
+let betDisplay = document.getElementById('bet');
 
 cashDisplay.textContent = `${cash}`;
 
@@ -48,6 +51,7 @@ playBtn.addEventListener('click', function() {
 
 function startGame() {
   modal.style.display = "none";
+
   loadCards();
 }
 
@@ -110,31 +114,67 @@ function loadCards() {
         ) {
           bothNatural();
         } else {
-          console.log('a natural, you win');
-          // add wage * 1.5 and start game over
+          playerNatural();
         }
       } else if (
         dealerCards[0].name === "Ace" && dealerCards[1].value === 10 ||
         dealerCards[1].name === "Ace" && dealerCards[0].value === 10
       ) {
-        console.log('the dealer has a natural, you lose');
-        // subtract wage and start game over
+        dealerNatural();
       }
     }
 
     function bothNatural() {
+      playAgain();
+      playAgainMsg.textContent = "Both natural, it's a draw. You keep your bet."
+    }
+
+    function playerNatural() {
+      // cash += (bet * 1.5)
+      playAgain();
+      playAgainMsg.textContent = "You have a natural, you win your bet amount and a half!"
+    }
+
+    function dealerNatural() {
       // cash -= bet
+      playAgain();
+      playAgainMsg.textContent = "The dealer has a natural, you've lost your bet."
+    }
+
+    function playAgain() {
       playAgainModal.style.display = "block";
 
-      playAgain.addEventListener("click", nextRound);
+      playAgainBtn.addEventListener("click", function() {
+        playAgainModal.style.display = "none";
+        // dealerDeck = [];
+        // playerDeck = [];
+        //
+        // dealerCards = [];
+        // playerCards = [];
+        //
+        // dealerHand.innerHTML = `
+        //   <p>Dealer Cards</p>
+        //   <div id="dealer-card-1"></div>
+        //   <div id="dealer-card-2"></div>
+        // `;
+        //
+        // playerHand.innerHTML = `
+        //   <p>Player Cards</p>
+        //   <div id="player-card-1"></div>
+        //   <div id="player-card-2"></div>
+        // `;
+        //
+        // dealerCard1.innerHTML = "";
+        // dealerCard2.innerHTML = "";
+        // playerCard1.innerHTML = "";
+        // playerCard2.innerHTML = "";
+
+        startGame();
+      });
 
       startOver.addEventListener("click", function() {
         location.reload();
       });
-    }
-
-    function nextRound() {
-
     }
 
     function hitOrStand() {
@@ -176,14 +216,19 @@ function loadCards() {
 
       switch (true) {
         case (playerAddedVals > 21):
-          console.log("bust, you lose");
-          // subtract wage and start over
+          bust();
           break;
-        case (playerAddedVals <= 21 && playerCards.length > 2):
+        case (playerAddedVals <= 21 && playerCards.length >= 2):
           flipCard();
           dealerPlay();
           break;
       }
+    }
+
+    function bust() {
+      // cash -= bet
+      playAgain();
+      playAgainMsg.textContent = "You have a bust, you've lost your bet."
     }
 
     function flipCard() {
@@ -220,9 +265,53 @@ function loadCards() {
     }
 
     function dealerStand(val) {
-      // val <= 21
-      //   ? // idk draw i guess
-      //   : // dealer loses
+      val <= 21
+        ? compareDealer(val)
+        : dealerBust();
+    }
+
+    function compareDealer(val) {
+      let playerAddedVals = 0;
+      for (let card of playerCards) {
+        playerAddedVals += card.value;
+      }
+
+      console.log("Player: " + playerAddedVals);
+
+      switch(true) {
+        case (playerAddedVals > val):
+          playerWins();
+          break;
+        case (playerAddedVals < val):
+          dealerWins();
+          break;
+        case (playerAddedVals === val):
+          push();
+          break;
+      }
+    }
+
+    function playerWins() {
+      // cash += bet
+      playAgain();
+      playAgainMsg.textContent = "You have more points than the dealer, you've won your bet."
+    }
+
+    function dealerWins() {
+      // cash -= bet
+      playAgain();
+      playAgainMsg.textContent = "You have less points than the dealer, you've lost your bet."
+    }
+
+    function push() {
+      playAgain();
+      playAgainMsg.textContent = "You and the dealer have the same amount of points, you get to keep your bet."
+    }
+
+    function dealerBust() {
+      // cash += bet
+      playAgain();
+      playAgainMsg.textContent = "The dealer has a bust, you've won your bet."
     }
 
     function chooseAceVal() {
