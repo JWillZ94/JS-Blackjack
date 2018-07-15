@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/styles.css">
+  <title>JS Blackjack</title>
+</head>
+<body onload="showModal()">
+  <p>JavaScript Blackjack</p>
+
+  <p>Hand: <span id="hand"></span></p>
+
+  <div id="dealer-hand" class="dealt-cards">
+    <p>Dealer Cards</p>
+    <div id="dealer-card-1"></div>
+    <div id="dealer-card-2"></div>
+  </div>
+
+  <div id="player-hand" class="dealt-cards">
+    <p>Player Cards</p>
+    <div id="player-card-1"></div>
+    <div id="player-card-2"></div>
+  </div>
+
+  <div>
+    <button id="hit">Hit</button>
+    <button id="stand">Stand</button>
+  </div>
+
+  <div id="modal">
+    <div id="modal-content">
+      <p>Play some 21</p>
+      <button id="play">Play</button>
+    </div>
+  </div>
+
+  <div id="ace-modal">
+    <div id="ace-modal-content">
+      <p>Will this Ace be worth 1 or 11?</p>
+      <button id="ace1">1</button>
+      <button id="ace11">11</button>
+    </div>
+  </div>
+
+  <script src="/main.js"></script>
+</body>
+</html>

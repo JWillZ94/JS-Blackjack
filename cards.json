@@ -1,0 +1,314 @@
+[
+  {
+    "suit": "Clubs",
+    "name": "Ace",
+    "value": 11,
+    "img": "./assets/AC.png"
+  },
+  {
+    "suit": "Clubs",
+    "name": "2",
+    "value": 2,
+    "img": "./assets/2C.png"
+  },
+  {
+    "suit": "Clubs",
+    "name": "3",
+    "value": 3,
+    "img": "./assets/3C.png"
+  },
+  {
+    "suit": "Clubs",
+    "name": "4",
+    "value": 4,
+    "img": "./assets/4C.png"
+  },
+  {
+    "suit": "Clubs",
+    "name": "5",
+    "value": 5,
+    "img": "./assets/5C.png"
+  },
+  {
+    "suit": "Clubs",
+    "name": "6",
+    "value": 6,
+    "img": "./assets/6C.png"
+  },
+  {
+    "suit": "Clubs",
+    "name": "7",
+    "value": 7,
+    "img": "./assets/7C.png"
+  },
+  {
+    "suit": "Clubs",
+    "name": "8",
+    "value": 8,
+    "img": "./assets/8C.png"
+  },
+  {
+    "suit": "Clubs",
+    "name": "9",
+    "value": 9,
+    "img": "./assets/9C.png"
+  },
+  {
+    "suit": "Clubs",
+    "name": "10",
+    "value": 10,
+    "img": "./assets/10C.png"
+  },
+  {
+    "suit": "Clubs",
+    "name": "Jack",
+    "value": 10,
+    "img": "./assets/JC.png"
+  },
+  {
+    "suit": "Clubs",
+    "name": "Queen",
+    "value": 10,
+    "img": "./assets/QC.png"
+  },
+  {
+    "suit": "Clubs",
+    "name": "King",
+    "value": 10,
+    "img": "./assets/KC.png"
+  },
+  {
+    "suit": "Diamonds",
+    "name": "Ace",
+    "value": 11,
+    "img": "./assets/AD.png"
+  },
+  {
+    "suit": "Diamonds",
+    "name": "2",
+    "value": 2,
+    "img": "./assets/2D.png"
+  },
+  {
+    "suit": "Diamonds",
+    "name": "3",
+    "value": 3,
+    "img": "./assets/3D.png"
+  },
+  {
+    "suit": "Diamonds",
+    "name": "4",
+    "value": 4,
+    "img": "./assets/4D.png"
+  },
+  {
+    "suit": "Diamonds",
+    "name": "5",
+    "value": 5,
+    "img": "./assets/5D.png"
+  },
+  {
+    "suit": "Diamonds",
+    "name": "6",
+    "value": 6,
+    "img": "./assets/6D.png"
+  },
+  {
+    "suit": "Diamonds",
+    "name": "7",
+    "value": 7,
+    "img": "./assets/7D.png"
+  },
+  {
+    "suit": "Diamonds",
+    "name": "8",
+    "value": 8,
+    "img": "./assets/8D.png"
+  },
+  {
+    "suit": "Diamonds",
+    "name": "9",
+    "value": 9,
+    "img": "./assets/9D.png"
+  },
+  {
+    "suit": "Diamonds",
+    "name": "10",
+    "value": 10,
+    "img": "./assets/10D.png"
+  },
+  {
+    "suit": "Diamonds",
+    "name": "Jack",
+    "value": 10,
+    "img": "./assets/JD.png"
+  },
+  {
+    "suit": "Diamonds",
+    "name": "Queen",
+    "value": 10,
+    "img": "./assets/QD.png"
+  },
+  {
+    "suit": "Diamonds",
+    "name": "King",
+    "value": 10,
+    "img": "./assets/KD.png"
+  },
+  {
+    "suit": "Hearts",
+    "name": "Ace",
+    "value": 11,
+    "img": "./assets/AH.png"
+  },
+  {
+    "suit": "Hearts",
+    "name": "2",
+    "value": 2,
+    "img": "./assets/2H.png"
+  },
+  {
+    "suit": "Hearts",
+    "name": "3",
+    "value": 3,
+    "img": "./assets/3H.png"
+  },
+  {
+    "suit": "Hearts",
+    "name": "4",
+    "value": 4,
+    "img": "./assets/4H.png"
+  },
+  {
+    "suit": "Hearts",
+    "name": "5",
+    "value": 5,
+    "img": "./assets/5H.png"
+  },
+  {
+    "suit": "Hearts",
+    "name": "6",
+    "value": 6,
+    "img": "./assets/6H.png"
+  },
+  {
+    "suit": "Hearts",
+    "name": "7",
+    "value": 7,
+    "img": "./assets/7H.png"
+  },
+  {
+    "suit": "Hearts",
+    "name": "8",
+    "value": 8,
+    "img": "./assets/8H.png"
+  },
+  {
+    "suit": "Hearts",
+    "name": "9",
+    "value": 9,
+    "img": "./assets/9H.png"
+  },
+  {
+    "suit": "Hearts",
+    "name": "10",
+    "value": 10,
+    "img": "./assets/10H.png"
+  },
+  {
+    "suit": "Hearts",
+    "name": "Jack",
+    "value": 10,
+    "img": "./assets/JH.png"
+  },
+  {
+    "suit": "Hearts",
+    "name": "Queen",
+    "value": 10,
+    "img": "./assets/QH.png"
+  },
+  {
+    "suit": "Hearts",
+    "name": "King",
+    "value": 10,
+    "img": "./assets/KH.png"
+  },
+  {
+    "suit": "Spades",
+    "name": "Ace",
+    "value": 11,
+    "img": "./assets/AS.png"
+  },
+  {
+    "suit": "Spades",
+    "name": "2",
+    "value": 2,
+    "img": "./assets/2S.png"
+  },
+  {
+    "suit": "Spades",
+    "name": "3",
+    "value": 3,
+    "img": "./assets/3S.png"
+  },
+  {
+    "suit": "Spades",
+    "name": "4",
+    "value": 4,
+    "img": "./assets/4S.png"
+  },
+  {
+    "suit": "Spades",
+    "name": "5",
+    "value": 5,
+    "img": "./assets/5S.png"
+  },
+  {
+    "suit": "Spades",
+    "name": "6",
+    "value": 6,
+    "img": "./assets/6S.png"
+  },
+  {
+    "suit": "Spades",
+    "name": "7",
+    "value": 7,
+    "img": "./assets/7S.png"
+  },
+  {
+    "suit": "Spades",
+    "name": "8",
+    "value": 8,
+    "img": "./assets/8S.png"
+  },
+  {
+    "suit": "Spades",
+    "name": "9",
+    "value": 9,
+    "img": "./assets/9S.png"
+  },
+  {
+    "suit": "Spades",
+    "name": "10",
+    "value": 10,
+    "img": "./assets/10S.png"
+  },
+  {
+    "suit": "Spades",
+    "name": "Jack",
+    "value": 10,
+    "img": "./assets/JS.png"
+  },
+  {
+    "suit": "Spades",
+    "name": "Queen",
+    "value": 10,
+    "img": "./assets/QS.png"
+  },
+  {
+    "suit": "Spades",
+    "name": "King",
+    "value": 10,
+    "img": "./assets/KS.png"
+  }
+]
