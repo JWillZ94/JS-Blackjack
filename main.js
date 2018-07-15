@@ -21,11 +21,20 @@ let hand = document.getElementById('hand');
 let hit = document.getElementById('hit');
 let stand = document.getElementById('stand');
 let playerHand = document.getElementById('player-hand');
+let dealerHand = document.getElementById('dealer-hand');
 let dealerCards = [];
 let playerCards = [];
 let aceModal = document.getElementById('ace-modal');
 let aceBtn1 = document.getElementById('ace1');
 let aceBtn11 = document.getElementById('ace11');
+let cashDisplay = document.getElementById('cash');
+let cash = 1000;
+let chooseModal = document.getElementById('choose-modal');
+let playAgainModal = document.getElementById('play-again-modal');
+let playAgain = document.getElementById('play-again');
+let startOver = document.getElementById('start-over');
+
+cashDisplay.textContent = `${cash}`;
 
 function showModal() {
   modal.style.display = "block";
@@ -52,75 +61,168 @@ function loadCards() {
       playerDeck.push(c);
     }
 
-    dealerCards.push(dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
-    dealerDeck.splice(dealerDeck.indexOf(dealerCards[0]), 1);
-    dealerCards.push(dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
-    dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
+    dealCards();
 
-    playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-    playerDeck.splice(playerDeck.indexOf(playerCards[0]), 1);
-    playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-    playerDeck.splice(playerDeck.indexOf(playerCards[1]), 1);
+    checkNatural();
+
+    hitOrStand();
 
     chooseAceVal();
 
-    dealerCard1.innerHTML = `
-      <img src="${dealerCards[0].img}" width="150">
-    `;
-    dealerCard2.innerHTML = `
-      <img src="${dealerCards[1].img}" width="150">
-    `;
-    playerCard1.innerHTML = `
-      <img src="${playerCards[0].img}" width="150">
-    `;
-    playerCard2.innerHTML = `
-      <img src="${playerCards[1].img}" width="150">
-    `;
+    function dealCards() {
+      dealerCards.push(dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
+      dealerDeck.splice(dealerDeck.indexOf(dealerCards[0]), 1);
+      dealerCards.push(dealerDeck[dealerDeck.length - 1]);
+      dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
 
-    hit.addEventListener('click', function() {
       playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-      playerDeck.splice(playerDeck.indexOf(playerCards[playerCards.length - 1]), 1);
+      playerDeck.splice(playerDeck.indexOf(playerCards[0]), 1);
+      playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+      playerDeck.splice(playerDeck.indexOf(playerCards[1]), 1);
 
-      playerHand.innerHTML += `
-        <div>
-          <img src="${playerCards[playerCards.length - 1].img}" width="150">
-        </div>
+      dealerCard1.innerHTML = `
+        <img src="${dealerCards[0].img}" width="150">
       `;
+      dealerCard2.innerHTML = `
+        <img src="${dealerCards[1].img}" width="150">
+      `;
+      playerCard1.innerHTML = `
+        <img src="${playerCards[0].img}" width="150">
+      `;
+      playerCard2.innerHTML = `
+        <img src="${playerCards[1].img}" width="150">
+      `;
+    }
 
-      chooseAceVal();
-    });
+    function checkNatural() {
+      if (
+        playerCards[0].name === "Ace" && playerCards[1].value === 10 ||
+        playerCards[1].name === "Ace" && playerCards[0].value === 10
+      ) {
+        dealerCards.splice(1, 1, dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
+        dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
+        dealerCard2.innerHTML = `
+          <img src="${dealerCards[1].img}" width="150">
+        `;
+        if (
+          dealerCards[0].name === "Ace" && dealerCards[1].value === 10 ||
+          dealerCards[1].name === "Ace" && dealerCards[0].value === 10
+        ) {
+          bothNatural();
+        } else {
+          console.log('a natural, you win');
+          // add wage * 1.5 and start game over
+        }
+      } else if (
+        dealerCards[0].name === "Ace" && dealerCards[1].value === 10 ||
+        dealerCards[1].name === "Ace" && dealerCards[0].value === 10
+      ) {
+        console.log('the dealer has a natural, you lose');
+        // subtract wage and start game over
+      }
+    }
 
-    stand.addEventListener('click', check21);
+    function bothNatural() {
+      // cash -= bet
+      playAgainModal.style.display = "block";
+
+      playAgain.addEventListener("click", nextRound);
+
+      startOver.addEventListener("click", function() {
+        location.reload();
+      });
+    }
+
+    function nextRound() {
+
+    }
+
+    function hitOrStand() {
+      chooseModal.style.display = "block";
+
+      hit.addEventListener('click', function() {
+        chooseModal.style.display = "none";
+
+        addPlayerCard();
+
+        chooseAceVal();
+
+        hitOrStand();
+
+        function addPlayerCard() {
+          playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+          playerDeck.splice(playerDeck.indexOf(playerCards[playerCards.length - 1]), 1);
+
+          playerHand.innerHTML += `
+            <div>
+              <img src="${playerCards[playerCards.length - 1].img}" width="150">
+            </div>
+          `;
+        }
+      });
+
+      stand.addEventListener('click', check21);
+    }
 
     function check21() {
-      let dealerAddedVals = dealerCards.reduce((total, val) => total.value + val.value);
+      chooseModal.style.display = "none";
+
       let playerAddedVals = 0;
       for (let card of playerCards) {
         playerAddedVals += card.value;
       }
 
-      console.log("Dealer: " + dealerAddedVals);
       console.log("Player: " + playerAddedVals);
 
       switch (true) {
         case (playerAddedVals > 21):
           console.log("bust, you lose");
+          // subtract wage and start over
           break;
-        case (playerAddedVals === 21 && playerCards.length === 2):
-          console.log("a natural, you win");
-          break;
-        case (playerAddedVals < 21 && playerCards.length >= 2):
-          compareDealer(playerAddedVals, dealerAddedVals);
+        case (playerAddedVals <= 21 && playerCards.length > 2):
+          flipCard();
+          dealerPlay();
           break;
       }
     }
 
-    function compareDealer(playerAddedVals, dealerAddedVals) {
-      if (dealerAddedVals > playerAddedVals) {
-        return console.log("dealer wins");
-      } else if (dealerAddedVals < playerAddedVals) {
-        return console.log("player wins");
+    function flipCard() {
+      dealerCards.splice(1, 1, dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
+      dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
+      dealerCard2.innerHTML = `
+        <img src="${dealerCards[1].img}" width="150">
+      `;
+    }
+
+    function dealerPlay() {
+      let dealerAddedVals = 0;
+      for (let card of dealerCards) {
+        dealerAddedVals += card.value;
       }
+      console.log("Dealer: " + dealerAddedVals);
+
+      dealerAddedVals <= 16
+        ? dealerHit()
+        : dealerStand(dealerAddedVals);
+    }
+
+    function dealerHit() {
+      dealerCards.push(dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
+      dealerDeck.splice(dealerDeck.indexOf(dealerCards[dealerCards.length - 1]), 1);
+
+      dealerHand.innerHTML += `
+        <div>
+          <img src="${dealerCards[dealerCards.length - 1].img}" width="150">
+        </div>
+      `;
+
+      dealerPlay();
+    }
+
+    function dealerStand(val) {
+      // val <= 21
+      //   ? // idk draw i guess
+      //   : // dealer loses
     }
 
     function chooseAceVal() {

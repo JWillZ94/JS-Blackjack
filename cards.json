@@ -310,5 +310,9 @@
     "name": "King",
     "value": 10,
     "img": "./assets/KS.png"
+  },
+  {
+    "name": "facedown",
+    "img": "./assets/purple_back.png"
   }
 ]

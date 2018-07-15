@@ -12,6 +12,8 @@
 
   <p>Hand: <span id="hand"></span></p>
 
+  <p>Cash: $<span id="cash"></span></p>
+
   <div id="dealer-hand" class="dealt-cards">
     <p>Dealer Cards</p>
     <div id="dealer-card-1"></div>
@@ -22,11 +24,6 @@
     <p>Player Cards</p>
     <div id="player-card-1"></div>
     <div id="player-card-2"></div>
-  </div>
-
-  <div>
-    <button id="hit">Hit</button>
-    <button id="stand">Stand</button>
   </div>
 
   <div id="modal">
@@ -41,6 +38,22 @@
       <p>Will this Ace be worth 1 or 11?</p>
       <button id="ace1">1</button>
       <button id="ace11">11</button>
+    </div>
+  </div>
+
+  <div id="choose-modal">
+    <div id="choose-modal-content">
+      <p>Will you hit or stand?</p>
+      <button id="hit">Hit</button>
+      <button id="stand">Stand</button>
+    </div>
+  </div>
+
+  <div id="play-again-modal">
+    <div id="play-again-modal-content">
+      <p id="play-again-msg"></p>
+      <button id="play-again">Play Again</button>
+      <button id="start-over">Start Over</button>
     </div>
   </div>
 
