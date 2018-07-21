@@ -11,19 +11,19 @@
 
 let modal = document.getElementById('modal');
 let playBtn = document.getElementById('play');
-let dealerDeck;
-let playerDeck;
-let dealerCard1;
-let dealerCard2;
-let playerCard1;
-let playerCard2;
+let dealerDeck = [];
+let playerDeck = [];
+let dealerCard1 = document.getElementById('dealer-card-1');
+let dealerCard2 = document.getElementById('dealer-card-2');
+let playerCard1 = document.getElementById('player-card-1');
+let playerCard2 = document.getElementById('player-card-2');
 let hand = document.getElementById('hand');
 let hit = document.getElementById('hit');
 let stand = document.getElementById('stand');
-let playerHand;
-let dealerHand;
-let dealerCards;
-let playerCards;
+let playerHand = document.getElementById('player-hand');
+let dealerHand = document.getElementById('dealer-hand');
+let dealerCards = [];
+let playerCards = [];
 let aceModal = document.getElementById('ace-modal');
 let aceBtn1 = document.getElementById('ace1');
 let aceBtn11 = document.getElementById('ace11');
@@ -47,22 +47,8 @@ hand.textContent = "Hard";
 
 playBtn.addEventListener('click', function() {
   modal.style.display = "none";
-  startGame();
-});
-
-function startGame() {
-  dealerDeck = [];
-  playerDeck = [];
-  dealerCards = [];
-  playerCards = [];
-  dealerHand = document.getElementById('dealer-hand');
-  playerHand = document.getElementById('player-hand');
-  dealerCard1 = document.getElementById('dealer-card-1');
-  dealerCard2 = document.getElementById('dealer-card-2');
-  playerCard1 = document.getElementById('player-card-1');
-  playerCard2 = document.getElementById('player-card-2');
   loadCards();
-}
+});
 
 function loadCards() {
   let xhttp = new XMLHttpRequest();
@@ -75,17 +61,12 @@ function loadCards() {
     }
 
     dealCards();
-
-    checkNatural();
-
-    hitOrStand();
-
-    chooseAceVal();
-
   }
 
   xhttp.send();
 }
+
+
 
 function dealCards() {
   dealerCards.push(dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
@@ -100,7 +81,7 @@ function dealCards() {
   // playerCards.push(playerDeck[0]); for testing purposes
   playerDeck.splice(playerDeck.indexOf(playerCards[1]), 1);
 
-  dealerCard1.innerHTML = `
+  dealerCard1.innerHTML += `
     <img src="${dealerCards[0].img}" width="150">
   `;
   dealerCard2.innerHTML = `
@@ -112,6 +93,12 @@ function dealCards() {
   playerCard2.innerHTML = `
     <img src="${playerCards[1].img}" width="150">
   `;
+
+  checkNatural();
+
+  hitOrStand();
+
+  // chooseAceVal();
 }
 
 function checkNatural() {
@@ -155,39 +142,34 @@ function hitOrStand() {
   chooseModal.style.display = "block";
 
   hit.addEventListener('click', function() {
-    chooseModal.style.display = "none";
 
-    console.log(addPlayerCard());
+    addPlayerCard();
 
-    chooseAceVal();
+    // chooseAceVal();
 
     check21();
-
-    hitOrStand();
-
-    function addPlayerCard() {
-      playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-      playerDeck.splice(playerDeck.indexOf(playerCards[playerCards.length - 1]), 1);
-
-      playerHand.innerHTML += `
-        <div>
-          <img src="${playerCards[playerCards.length - 1].img}" width="150">
-        </div>
-      `;
-
-      return playerCards;
-    }
   });
 
   stand.addEventListener('click', function () {
+    chooseModal.style.display = "none";
     flipCard();
     dealerPlay();
   });
+
+}
+
+function addPlayerCard() {
+  playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+  playerDeck.splice(playerDeck.indexOf(playerCards[playerCards.length - 1]), 1);
+
+  playerHand.innerHTML += `
+    <div>
+      <img src="${playerCards[playerCards.length - 1].img}" width="150">
+    </div>
+  `;
 }
 
 function check21() {
-  chooseModal.style.display = "none";
-
   let playerAddedVals = 0;
   for (let card of playerCards) {
     playerAddedVals += card.value;
@@ -198,6 +180,7 @@ function check21() {
 
 function bust() {
   // cash -= bet
+  chooseModal.style.display = "none";
   playAgain();
   playAgainMsg.textContent = "You have a bust, you've lost your bet."
 }
@@ -215,7 +198,6 @@ function dealerPlay() {
   for (let card of dealerCards) {
     dealerAddedVals += card.value;
   }
-  console.log("Dealer: " + dealerAddedVals);
 
   dealerAddedVals <= 16
     ? dealerHit()
@@ -246,8 +228,6 @@ function compareDealer(val) {
   for (let card of playerCards) {
     playerAddedVals += card.value;
   }
-
-  console.log("Player: " + playerAddedVals);
 
   switch(true) {
     case (playerAddedVals > val):
@@ -285,43 +265,62 @@ function dealerBust() {
   playAgainMsg.textContent = "The dealer has a bust, you've won your bet."
 }
 
-function chooseAceVal() {
-  for (let card of playerCards) {
-    if (card.name === "Ace") {
-      aceModal.style.display = "block";
-      aceBtn1.addEventListener("click", function() {
-        playerCards[0].name === "Ace" && playerCards[1].name === "Ace"
-          ? playerCards[0].value = aceVal1(card.value)
-          : (
-              card.value = aceVal1(card.value),
-              hand.textContent = "Soft"
-            );
-      });
-      aceBtn11.addEventListener("click", function() {
-        if (playerCards[0].name === "Ace" && playerCards[1].name === "Ace") playerCards[1].value = aceVal1(card.value);
-        aceVal11(card.value);
-        hand.textContent = "Soft";
-      });
-    }
-  }
-}
+// function chooseAceVal() {
+//   for (let card of playerCards) {
+//     if (card.name === "Ace") {
+//       aceModal.style.display = "block";
+//       aceBtn1.addEventListener("click", function() {
+//         playerCards[0].name === "Ace" && playerCards[1].name === "Ace"
+//           ? playerCards[0].value = aceVal1(card.value)
+//           : (
+//               card.value = aceVal1(card.value),
+//               hand.textContent = "Soft"
+//             );
+//       });
+//       aceBtn11.addEventListener("click", function() {
+//         if (playerCards[0].name === "Ace" && playerCards[1].name === "Ace") playerCards[1].value = aceVal1(card.value);
+//         aceVal11(card.value);
+//         hand.textContent = "Soft";
+//       });
+//     }
+//   }
+//
+//   function aceVal1(val) {
+//     val = 1;
+//     aceModal.style.display = "none";
+//     return val;
+//   }
+//
+//   function aceVal11(val) {
+//     aceModal.style.display = "none";
+//     return val;
+//   }
+// }
 
-function aceVal1(val) {
-  val = 1;
-  aceModal.style.display = "none";
-  return val;
-}
-
-function aceVal11(val) {
-  aceModal.style.display = "none";
-  return val;
-}
-
-function playAgain() {
+function playAgain(j) {
+  // if (j >= 11) {
+  //   return console.log('the end');
+  // }
   playAgainModal.style.display = "block";
 
   playAgainBtn.addEventListener("click", function() {
     playAgainModal.style.display = "none";
+
+    while (dealerHand.childNodes.length > 6) {
+      dealerHand.removeChild(dealerHand.lastChild);
+    }
+
+    while (playerHand.childNodes.length > 6) {
+      playerHand.removeChild(playerHand.lastChild);
+    }
+
+    dealerCard1 = document.getElementById('dealer-card-1');
+    dealerCard2 = document.getElementById('dealer-card-2');
+    playerCard1 = document.getElementById('player-card-1');
+    playerCard2 = document.getElementById('player-card-2');
+
+    dealerCards = [];
+    playerCards = [];
 
     nextRound();
   });
@@ -332,23 +331,5 @@ function playAgain() {
 }
 
 function nextRound() {
-
-  dealerHand.innerHTML = `
-    <p>Dealer Cards</p>
-    <div id="dealer-card-1"></div>
-    <div id="dealer-card-2"></div>
-  `;
-
-  playerHand.innerHTML = `
-    <p>Player Cards</p>
-    <div id="player-card-1"></div>
-    <div id="player-card-2"></div>
-  `;
-
-  dealerCard1.innerHTML = "";
-  dealerCard2.innerHTML = "";
-  playerCard1.innerHTML = "";
-  playerCard2.innerHTML = "";
-
-  startGame();
+  dealCards();
 }
