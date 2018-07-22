@@ -1,14 +1,5 @@
 "use strict;"
 
-/*
-  click play
-  each side has their own deck
-  cards slide out, only 1 dealer card is out
-  hit or stand
-  if stand, dealer card is flipped over and is compared to players cards
-  if hit, another card is added to players hand
-*/
-
 let modal = document.getElementById('modal');
 let playBtn = document.getElementById('play');
 let dealerDeck = [];
@@ -36,8 +27,10 @@ let startOver = document.getElementById('start-over');
 let playAgainMsg = document.getElementById('play-again-msg');
 let placeBet = document.getElementById('place-bet');
 let betDisplay = document.getElementById('bet');
+let bet = 300;
 
 cashDisplay.textContent = `${cash}`;
+betDisplay.textContent = `${bet}`;
 
 function showModal() {
   modal.style.display = "block";
@@ -126,13 +119,15 @@ function checkNatural() {
   }
 
   function playerNatural() {
-    // cash += (bet * 1.5)
+    cash += (bet * 1.5);
+    cashDisplay.textContent = `${cash}`;
     playAgain();
     playAgainMsg.textContent = "You have a natural, you win your bet amount and a half!"
   }
 
   function dealerNatural() {
-    // cash -= bet
+    cash -= bet;
+    cashDisplay.textContent = `${cash}`;
     playAgain();
     playAgainMsg.textContent = "The dealer has a natural, you've lost your bet."
   }
@@ -179,7 +174,8 @@ function check21() {
 }
 
 function bust() {
-  // cash -= bet
+  cash -= bet;
+  cashDisplay.textContent = `${cash}`;
   chooseModal.style.display = "none";
   playAgain();
   playAgainMsg.textContent = "You have a bust, you've lost your bet."
@@ -243,13 +239,15 @@ function compareDealer(val) {
 }
 
 function playerWins() {
-  // cash += bet
+  cash += bet;
+  cashDisplay.textContent = `${cash}`;
   playAgain();
   playAgainMsg.textContent = "You have more points than the dealer, you've won your bet."
 }
 
 function dealerWins() {
-  // cash -= bet
+  cash -= bet;
+  cashDisplay.textContent = `${cash}`;
   playAgain();
   playAgainMsg.textContent = "You have less points than the dealer, you've lost your bet."
 }
@@ -260,7 +258,8 @@ function push() {
 }
 
 function dealerBust() {
-  // cash += bet
+  cash += bet;
+  cashDisplay.textContent = `${cash}`;
   playAgain();
   playAgainMsg.textContent = "The dealer has a bust, you've won your bet."
 }
@@ -297,10 +296,7 @@ function dealerBust() {
 //   }
 // }
 
-function playAgain(j) {
-  // if (j >= 11) {
-  //   return console.log('the end');
-  // }
+function playAgain() {
   playAgainModal.style.display = "block";
 
   playAgainBtn.addEventListener("click", function() {
@@ -331,5 +327,5 @@ function playAgain(j) {
 }
 
 function nextRound() {
-  dealCards();
+  // dealCards();
 }
