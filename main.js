@@ -22,10 +22,21 @@ let betAmt = document.getElementById('bet-amt');
 let submitBet = document.getElementById('submit-bet');
 let bet;
 
-let chooseModal = document.getElementById('choose-modal');
-let question = document.getElementById('question');
-let a = document.getElementById('a');
-let b = document.getElementById('b');
+let doubleModal = document.getElementById('double-modal');
+let double = document.getElementById('double');
+let noDouble = document.getElementById('no-double');
+
+let hitModal = document.getElementById('hit-modal');
+let hit = document.getElementById('hit');
+let stand = document.getElementById('stand');
+
+let playAgainModal = document.getElementById('play-again-modal');
+let playAgainMsg = document.getElementById('play-again-msg');
+let playAgainBtn = document.getElementById('play-again');
+let startOver = document.getElementById('start-over');
+
+let restartModal = document.getElementById('no-cash-modal');
+let noCashStartOver = document.getElementById('no-cash-start-over');
 
 // Game data =======================================
 
@@ -34,9 +45,9 @@ let playerDeck = [];
 let dealerCards = [];
 let playerCards = [];
 let cash = 1000;
-let playAgainMsg;
 
 // Initial Assignments =================================
+
 hand.textContent = "Hard";
 cashDisplay.textContent = `${cash}`;
 
@@ -141,22 +152,22 @@ function checkNatural() {
   ) dealerNatural();
 
   function bothNatural() {
+    playAgainMsg.textContent = "Both natural, it's a draw. You keep your bet.";
     playAgain();
-    playAgainMsg = "Both natural, it's a draw. You keep your bet."
   }
 
   function playerNatural() {
     cash += (bet * 1.5);
     cashDisplay.textContent = `${cash}`;
+    playAgainMsg.textContent = "You have a natural, you win your bet amount and a half!";
     playAgain();
-    playAgainMsg = "You have a natural, you win your bet amount and a half!"
   }
 
   function dealerNatural() {
     cash -= bet;
     cashDisplay.textContent = `${cash}`;
+    playAgainMsg.textContent = "The dealer has a natural, you've lost your bet.";
     playAgain();
-    playAgainMsg = "The dealer has a natural, you've lost your bet."
   }
 }
 
@@ -260,21 +271,23 @@ function checkDoubleDown() {
   }
 
   if (playerAddedVals >= 9 && playerAddedVals <= 11) {
-    chooseModal.style.display = "block";
-    question.textContent = "Would you like to double down?";
-    a.textContent = "Yes";
-    b.textContent = "No";
+    doubleModal.style.display = "block";
 
-    a.addEventListener("click", function() {
+    double.addEventListener("click", function() {
       bet *= 2;
       betDisplay.textContent = `${bet}`;
 
       addPlayerCard();
 
       check21();
+
+      if (check21() !== bust()) {
+        flipCard();
+        dealerPlay();
+      }
     });
 
-    b.addEventListener("click", function() {
+    noDouble.addEventListener("click", function() {
       doubleModal.style.display = "none";
     });
   }
@@ -335,12 +348,9 @@ function checkInsurance() {
 // Hit or Stand ======================================
 
 function hitOrStand() {
-  chooseModal.style.display = "block";
-  question.textContent = "Will you hit or stand?";
-  a.textContent = "Hit";
-  b.textContent = "Stand";
+  hitModal.style.display = "block";
 
-  a.addEventListener('click', function() {
+  hit.addEventListener('click', function() {
 
     addPlayerCard();
 
@@ -349,8 +359,8 @@ function hitOrStand() {
     check21();
   });
 
-  b.addEventListener('click', function () {
-    chooseModal.style.display = "none";
+  stand.addEventListener('click', function () {
+    hitModal.style.display = "none";
     flipCard();
     dealerPlay();
   });
@@ -374,14 +384,14 @@ function check21() {
     playerAddedVals += card.value;
   }
 
-  if (playerAddedVals > 21) bust();
+  if (playerAddedVals > 21) return bust();
 }
 
 function bust() {
   cash -= bet;
   cashDisplay.textContent = `${cash}`;
-  chooseModal.style.display = "none";
-  playAgainMsg = "You have a bust, you've lost your bet.";
+  hitModal.style.display = "none";
+  playAgainMsg.textContent = "You have a bust, you've lost your bet.";
   playAgain();
 }
 
@@ -400,21 +410,24 @@ function dealerPlay() {
   }
 
   dealerAddedVals <= 16
-    ? dealerHit()
+    ? dealerHit(dealerAddedVals)
     : dealerStand(dealerAddedVals);
 }
 
-function dealerHit() {
-  dealerCards.push(dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
-  dealerDeck.splice(dealerDeck.indexOf(dealerCards[dealerCards.length - 1]), 1);
+function dealerHit(dealerAddedVals) {
+  while (dealerAddedVals <= 16) {
+    dealerCards.push(dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
+    dealerDeck.splice(dealerDeck.indexOf(dealerCards[dealerCards.length - 1]), 1);
 
-  dealerHand.innerHTML += `
-    <div>
-      <img src="${dealerCards[dealerCards.length - 1].img}" width="150">
-    </div>
-  `;
+    dealerHand.innerHTML += `
+      <div>
+        <img src="${dealerCards[dealerCards.length - 1].img}" width="150">
+      </div>
+    `;
 
-  dealerPlay();
+    dealerAddedVals += dealerCards[dealerCards.length - 1].value;
+  }
+  dealerStand(dealerAddedVals);
 }
 
 function dealerStand(val) {
@@ -445,27 +458,27 @@ function compareDealer(val) {
 function playerWins() {
   cash += bet;
   cashDisplay.textContent = `${cash}`;
+  playAgainMsg.textContent = "You have more points than the dealer, you've won your bet.";
   playAgain();
-  playAgainMsg = "You have more points than the dealer, you've won your bet."
 }
 
 function dealerWins() {
   cash -= bet;
   cashDisplay.textContent = `${cash}`;
+  playAgainMsg.textContent = "You have less points than the dealer, you've lost your bet.";
   playAgain();
-  playAgainMsg = "You have less points than the dealer, you've lost your bet."
 }
 
 function push() {
+  playAgainMsg.textContent = "You and the dealer have the same amount of points, you get to keep your bet.";
   playAgain();
-  playAgainMsg = "You and the dealer have the same amount of points, you get to keep your bet."
 }
 
 function dealerBust() {
   cash += bet;
   cashDisplay.textContent = `${cash}`;
+  playAgainMsg.textContent = "The dealer has a bust, you've won your bet.";
   playAgain();
-  playAgainMsg = "The dealer has a bust, you've won your bet."
 }
 
 // function chooseAceVal() {
@@ -507,13 +520,17 @@ function dealerBust() {
 // End of game =============================================
 
 function playAgain() {
-  chooseModal.style.display = "block";
-  question.textContent = playAgainMsg;
-  a.textContent = "Play Again";
-  b.textContent = "Start Over";
+  playAgainModal.style.display = "block";
 
-  a.addEventListener("click", function() {
+  playAgainBtn.addEventListener("click", function() {
     playAgainModal.style.display = "none";
+
+    if (cash <= 0) {
+      restartModal.style.display = "block";
+      noCashStartOver.addEventListener("click", function() {
+        location.reload();
+      });
+    }
 
     while (dealerHand.childNodes.length > 6) {
       dealerHand.removeChild(dealerHand.lastChild);
@@ -534,7 +551,7 @@ function playAgain() {
     nextRound();
   });
 
-  b.addEventListener("click", function() {
+  startOver.addEventListener("click", function() {
     location.reload();
   });
 }
