@@ -26,6 +26,18 @@ let doubleModal = document.getElementById('double-modal');
 let double = document.getElementById('double');
 let noDouble = document.getElementById('no-double');
 
+let surrenderModal = document.getElementById('surrender-modal');
+let surrender = document.getElementById('surrender');
+let noSurrender = document.getElementById('no-surrender');
+
+let insuranceModal = document.getElementById('insurance-modal');
+let insurance = document.getElementById('insurance');
+let noInsurance = document.getElementById('no-insurance');
+
+let splitModal = document.getElementById('split-modal');
+let split = document.getElementById('split');
+let noSplit = document.getElementById('no-split');
+
 let hitModal = document.getElementById('hit-modal');
 let hit = document.getElementById('hit');
 let stand = document.getElementById('stand');
@@ -95,11 +107,11 @@ function dealCards() {
   dealerCards.push(dealerDeck[dealerDeck.length - 1]);
   dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
 
-  playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-  // playerCards.push(playerDeck[11]); for testing purposes
+  // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+  playerCards.push(playerDeck[5]); // for testing purposes
   playerDeck.splice(playerDeck.indexOf(playerCards[0]), 1);
-  playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-  // playerCards.push(playerDeck[0]); for testing purposes
+  // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+  playerCards.push(playerDeck[17]); // for testing purposes
   playerDeck.splice(playerDeck.indexOf(playerCards[1]), 1);
 
   dealerCard1.innerHTML += `
@@ -123,9 +135,9 @@ function dealCards() {
 
   checkInsurance();
 
-  if (!checkNatural() && !checkPairs() && !checkDoubleDown() && !checkInsurance()) {
-    hitOrStand();
-  }
+  // if (!checkNatural() && !checkPairs() && !checkDoubleDown() && !checkInsurance()) {
+  //   hitOrStand();
+  // }
 
   // chooseAceVal();
 }
@@ -174,33 +186,28 @@ function checkNatural() {
 // Split Pairs =======================================
 
 function checkPairs() {
-  if (playerCards[0].name === playerCards[1].name) { // if pair
-    chooseModal.style.display = "block";
-    question.textContent = "Would you like to split your pair?";
-    a.textContent = "Yes";
-    b.textContent = "No";
+  if (playerCards[0].name === playerCards[1].name) {
+    splitModal.style.display = "block";
 
-    a.addEventListener('click', function() { // if split
+    split.addEventListener("click", function() {
       splitModal.style.display = "none";
       bet *= 2;
       betDisplay.textContent = `${bet}`;
       for (let i = 0; i < playerCards.length; i++) {
         playerCards[i] = [playerCards[i]];
-        hitOrStandPairs(playerCards[i]); // hit or stand based on pair arr
-      }
 
+        hitOrStandPairs(playerCards[i]);
+      }
     });
 
-    b.addEventListener('click', function() {
+    noSplit.addEventListener("click", function() {
       splitModal.style.display = "none";
     });
-  } else if (playerCards[0].name === "Ace" && playerCards[1].name === "Ace") {
-    chooseModal.style.display = "block";
-    question.textContent = "Would you like to split your pair?";
-    a.textContent = "Yes";
-    b.textContent = "No";
 
-    a.addEventListener('click', function() {
+  } else if (playerCards[0].name === "Ace" && playerCards[1].name === "Ace") {
+    splitModal.style.display = "block";
+
+    split.addEventListener('click', function() {
       splitModal.style.display = "none";
       bet *= 2;
       betDisplay.textContent = `${bet}`;
@@ -208,7 +215,7 @@ function checkPairs() {
 
     });
 
-    b.addEventListener('click', function() {
+    noSplit.addEventListener('click', function() {
       splitModal.style.display = "none";
     });
   }
@@ -278,13 +285,8 @@ function checkDoubleDown() {
       betDisplay.textContent = `${bet}`;
 
       addPlayerCard();
-
-      check21();
-
-      if (check21() !== bust()) {
-        flipCard();
-        dealerPlay();
-      }
+      flipCard();
+      dealerPlay();
     });
 
     noDouble.addEventListener("click", function() {
@@ -302,45 +304,47 @@ function checkInsurance() {
   }
 
   function earlySurrender() {
-    chooseModal.style.display = "block";
-    question.textContent = "Would you like to surrender?";
-    a.textContent = "Yes";
-    b.textContent = "No";
-    cash -= (bet / 2);
-    cashDisplay.textContent = `${cash}`;
+    surrenderModal.style.display = "block";
+
+    surrender.addEventListener("click", function() {
+      surrenderModal.style.display = "none";
+      cash -= (bet / 2);
+      cashDisplay.textContent = `${cash}`;
+      playAgainMsg.textContent = "You surrendered, you lost half your bet.";
+      playAgain();
+    });
+
+    noSurrender.addEventListener("click", function() {
+      surrenderModal.style.display = "none";
+    });
   }
 
   function chooseInsurance() {
-    chooseModal.style.display = "block";
-    question.textContent = "Would you like insurance?";
-    a.textContent = "Yes";
-    b.textContent = "No";
+    insuranceModal.style.display = "block";
 
-    a.addEventListener("click", function() {
+    insurance.addEventListener("click", function() {
       insuranceModal.style.display = "none";
-
       sideBet();
     });
 
-    b.addEventListener("click", function() {
+    noInsurance.addEventListener("click", function() {
       insuranceModal.style.display = "none";
     });
   }
 
   function sideBet() {
-    sideBetModal.style.display = "block";
+    bet += (bet / 2);
+    betDisplay.textContent = `${bet}`;
 
-    // bet += sideBet;
-    // betDisplay.textContent = `${bet}`;
-
-    // flipCard(); after submitting the side bet
+    flipCard();
 
     if (dealerCards[1].value === 10) {
-      // bet += sideBet;
-      // betDisplay.textContent = `${bet}`;
-
-      checkNatural();
-      // playAgain();
+      bet += (bet / 2);
+      betDisplay.textContent = `${bet}`;
+      cash -= (bet / 2);
+      cashDisplay.textContent = `${cash}`;
+      playAgainMsg.textContent = "The dealer has a blackjack, but since you have insurance, you don't lose cash.";
+      playAgain();
     }
   }
 }
