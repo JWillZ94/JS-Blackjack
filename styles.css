@@ -1,9 +1,41 @@
 body {
-  background: red;
+  background: #006622;
+  color: #fff;
+}
+
+#title {
+  text-align: center;
+  font-size: 2.5em;
+}
+
+#stats {
+  display: flex;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+#stats p {
+  margin: 0 2rem 0 0;
+}
+
+.hand-title {
+  font-size: 2em;
+  text-align: center;
+}
+
+.card-space {
+  width: 100px;
+  height: 152.813px;
 }
 
 .dealt-cards {
   display: flex;
+  justify-content: center;
+}
+
+.dealt-cards div {
+  margin: 0 1rem 0 1rem;
 }
 
 .modal {
@@ -15,14 +47,16 @@ body {
   height: 100%;
   overflow: auto;
   background: rgb(0, 0, 0);
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.6);
   position: fixed;
 }
 
 .modal-content {
   background: #fefefe;
-  margin: 15% auto;
+  margin: 18% 70%;
   padding: 20px;
   border: 1px solid #888;
-  width: 40%;
+  border-radius: 15px;
+  width: 20%;
+  color: black;
 }

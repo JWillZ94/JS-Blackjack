@@ -8,24 +8,25 @@
   <title>JS Blackjack</title>
 </head>
 <body onload="showModal()">
-  <p>JavaScript Blackjack</p>
+  <p id="title">JavaScript Blackjack</p>
 
-  <p>Hand: <span id="hand"></span></p>
+  <!-- <p>Hand: <span id="hand"></span></p> -->
 
-  <p>Cash: $<span id="cash"></span></p>
-
-  <p>Bet: $<span id="bet"></span></p>
-
-  <div id="dealer-hand" class="dealt-cards">
-    <p>Dealer Cards</p>
-    <div id="dealer-card-1"></div>
-    <div id="dealer-card-2"></div>
+  <div id="stats">
+    <p>Cash: $<span id="cash"></span></p>
+    <p>Bet: $<span id="bet"></span></p>
   </div>
 
+  <p class="hand-title">Dealer Cards</p>
+  <div id="dealer-hand" class="dealt-cards">
+    <div id="dealer-card-1" class="card-space"></div>
+    <div id="dealer-card-2" class="card-space"></div>
+  </div>
+
+  <p class="hand-title">Player Cards</p>
   <div id="player-hand" class="dealt-cards">
-    <p>Player Cards</p>
-    <div id="player-card-1"></div>
-    <div id="player-card-2"></div>
+    <div id="player-card-1" class="card-space"></div>
+    <div id="player-card-2" class="card-space"></div>
   </div>
 
   <div id="start-modal" class="modal">

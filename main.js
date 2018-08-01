@@ -2,7 +2,7 @@
 
 // Display Elements ======================================
 
-let hand = document.getElementById('hand');
+// let hand = document.getElementById('hand');
 let cashDisplay = document.getElementById('cash');
 let betDisplay = document.getElementById('bet');
 let dealerHand = document.getElementById('dealer-hand');
@@ -60,7 +60,7 @@ let cash = 1000;
 
 // Initial Assignments =================================
 
-hand.textContent = "Hard";
+// hand.textContent = "Hard";
 cashDisplay.textContent = `${cash}`;
 
 // Game ===============================================
@@ -107,37 +107,35 @@ function dealCards() {
   dealerCards.push(dealerDeck[dealerDeck.length - 1]);
   dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
 
-  // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-  playerCards.push(playerDeck[5]); // for testing purposes
+  playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+  // playerCards.push(playerDeck[5]); // for testing purposes
   playerDeck.splice(playerDeck.indexOf(playerCards[0]), 1);
-  // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-  playerCards.push(playerDeck[17]); // for testing purposes
+  playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+  // playerCards.push(playerDeck[17]); // for testing purposes
   playerDeck.splice(playerDeck.indexOf(playerCards[1]), 1);
 
   dealerCard1.innerHTML += `
-    <img src="${dealerCards[0].img}" width="150">
+    <img src="${dealerCards[0].img}" width="100">
   `;
   dealerCard2.innerHTML = `
-    <img src="${dealerCards[1].img}" width="150">
+    <img src="${dealerCards[1].img}" width="100">
   `;
   playerCard1.innerHTML = `
-    <img src="${playerCards[0].img}" width="150">
+    <img src="${playerCards[0].img}" width="100">
   `;
   playerCard2.innerHTML = `
-    <img src="${playerCards[1].img}" width="150">
+    <img src="${playerCards[1].img}" width="100">
   `;
 
   checkNatural();
 
-  checkPairs();
+  // checkPairs();
 
   checkDoubleDown();
 
   checkInsurance();
 
-  // if (!checkNatural() && !checkPairs() && !checkDoubleDown() && !checkInsurance()) {
-  //   hitOrStand();
-  // }
+  hitOrStand();
 
   // chooseAceVal();
 }
@@ -152,7 +150,7 @@ function checkNatural() {
     dealerCards.splice(1, 1, dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
     dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
     dealerCard2.innerHTML = `
-      <img src="${dealerCards[1].img}" width="150">
+      <img src="${dealerCards[1].img}" width="100">
     `;
     dealerCards[0].name === "Ace" && dealerCards[1].value === 10
     || dealerCards[1].name === "Ace" && dealerCards[0].value === 10
@@ -185,89 +183,89 @@ function checkNatural() {
 
 // Split Pairs =======================================
 
-function checkPairs() {
-  if (playerCards[0].name === playerCards[1].name) {
-    splitModal.style.display = "block";
-
-    split.addEventListener("click", function() {
-      splitModal.style.display = "none";
-      bet *= 2;
-      betDisplay.textContent = `${bet}`;
-      for (let i = 0; i < playerCards.length; i++) {
-        playerCards[i] = [playerCards[i]];
-
-        hitOrStandPairs(playerCards[i]);
-      }
-    });
-
-    noSplit.addEventListener("click", function() {
-      splitModal.style.display = "none";
-    });
-
-  } else if (playerCards[0].name === "Ace" && playerCards[1].name === "Ace") {
-    splitModal.style.display = "block";
-
-    split.addEventListener('click', function() {
-      splitModal.style.display = "none";
-      bet *= 2;
-      betDisplay.textContent = `${bet}`;
-
-
-    });
-
-    noSplit.addEventListener('click', function() {
-      splitModal.style.display = "none";
-    });
-  }
-
-  function hitOrStandPairs(arr) {
-    chooseModal.style.display = "block";
-    question.textContent = "Will you hit or stand?";
-    a.textContent = "Hit";
-    b.textContent = "Stand";
-
-    a.addEventListener('click', function(arr) {
-
-      addPlayerCardPair(arr);
-
-      // chooseAceVal();
-
-      check21Pair(arr);
-    });
-
-    b.addEventListener('click', function (arr) {
-      if (arr === playerCards[1]) {
-        chooseModal.style.display = "none";
-      }
-      flipCard();
-      dealerPlay();
-    });
-  }
-
-  function addPlayerCardPair(arr) {
-    arr.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-    playerDeck.splice(arr.indexOf(arr[arr.length - 1]), 1);
-
-    playerHand.innerHTML += `
-      <div>
-        <img src="${arr[arr.length - 1].img}" width="150">
-      </div>
-    `;
-  }
-
-  function check21Pair(arr) {
-    let playerAddedVals = 0;
-    for (let card of arr) {
-      playerAddedVals += card.value;
-    }
-
-    if (playerAddedVals > 21) bustPair();
-  }
-
-  function bustPair() {
-
-  }
-}
+// function checkPairs() {
+//   if (playerCards[0].name === playerCards[1].name) {
+//     splitModal.style.display = "block";
+//
+//     split.addEventListener("click", function() {
+//       splitModal.style.display = "none";
+//       bet *= 2;
+//       betDisplay.textContent = `${bet}`;
+//       for (let i = 0; i < playerCards.length; i++) {
+//         playerCards[i] = [playerCards[i]];
+//
+//         hitOrStandPairs(playerCards[i]);
+//       }
+//     });
+//
+//     noSplit.addEventListener("click", function() {
+//       splitModal.style.display = "none";
+//     });
+//
+//   } else if (playerCards[0].name === "Ace" && playerCards[1].name === "Ace") {
+//     splitModal.style.display = "block";
+//
+//     split.addEventListener('click', function() {
+//       splitModal.style.display = "none";
+//       bet *= 2;
+//       betDisplay.textContent = `${bet}`;
+//
+//
+//     });
+//
+//     noSplit.addEventListener('click', function() {
+//       splitModal.style.display = "none";
+//     });
+//   }
+//
+//   function hitOrStandPairs(arr) {
+//     chooseModal.style.display = "block";
+//     question.textContent = "Will you hit or stand?";
+//     a.textContent = "Hit";
+//     b.textContent = "Stand";
+//
+//     a.addEventListener('click', function(arr) {
+//
+//       addPlayerCardPair(arr);
+//
+//       // chooseAceVal();
+//
+//       check21Pair(arr);
+//     });
+//
+//     b.addEventListener('click', function (arr) {
+//       if (arr === playerCards[1]) {
+//         chooseModal.style.display = "none";
+//       }
+//       flipCard();
+//       dealerPlay();
+//     });
+//   }
+//
+//   function addPlayerCardPair(arr) {
+//     arr.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+//     playerDeck.splice(arr.indexOf(arr[arr.length - 1]), 1);
+//
+//     playerHand.innerHTML += `
+//       <div>
+//         <img src="${arr[arr.length - 1].img}" width="150">
+//       </div>
+//     `;
+//   }
+//
+//   function check21Pair(arr) {
+//     let playerAddedVals = 0;
+//     for (let card of arr) {
+//       playerAddedVals += card.value;
+//     }
+//
+//     if (playerAddedVals > 21) bustPair();
+//   }
+//
+//   function bustPair() {
+//
+//   }
+// }
 
 // Double Down =========================================
 
@@ -377,7 +375,7 @@ function addPlayerCard() {
 
   playerHand.innerHTML += `
     <div>
-      <img src="${playerCards[playerCards.length - 1].img}" width="150">
+      <img src="${playerCards[playerCards.length - 1].img}" width="100">
     </div>
   `;
 }
@@ -403,7 +401,7 @@ function flipCard() {
   dealerCards.splice(1, 1, dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
   dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
   dealerCard2.innerHTML = `
-    <img src="${dealerCards[1].img}" width="150">
+    <img src="${dealerCards[1].img}" width="100">
   `;
 }
 
@@ -425,7 +423,7 @@ function dealerHit(dealerAddedVals) {
 
     dealerHand.innerHTML += `
       <div>
-        <img src="${dealerCards[dealerCards.length - 1].img}" width="150">
+        <img src="${dealerCards[dealerCards.length - 1].img}" width="100">
       </div>
     `;
 
@@ -525,6 +523,7 @@ function dealerBust() {
 
 function playAgain() {
   playAgainModal.style.display = "block";
+  hitModal.style.display = "none";
 
   playAgainBtn.addEventListener("click", function() {
     playAgainModal.style.display = "none";
