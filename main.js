@@ -65,16 +65,16 @@ cashDisplay.textContent = `${cash}`;
 
 // Game ===============================================
 
-function showModal() {
+function showModal(startModal) {
   startModal.style.display = "block";
 
   playBtn.addEventListener('click', function() {
     startModal.style.display = "none";
-    loadCards();
+    loadCards(dealerDeck, playerDeck);
   });
 }
 
-function loadCards() {
+function loadCards(dealerDeck, playerDeck) {
   let xhttp = new XMLHttpRequest();
   xhttp.open("GET", "cards.json", true);
   xhttp.onload = function () {
@@ -547,6 +547,11 @@ function playAgain() {
     dealerCard2 = document.getElementById('dealer-card-2');
     playerCard1 = document.getElementById('player-card-1');
     playerCard2 = document.getElementById('player-card-2');
+
+    document.getElementById('dealer-card-1').innerHTML = "";
+    document.getElementById('dealer-card-2').innerHTML = "";
+    document.getElementById('player-card-1').innerHTML = "";
+    document.getElementById('player-card-2').innerHTML = "";
 
     dealerCards = [];
     playerCards = [];
