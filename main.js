@@ -65,16 +65,17 @@ cashDisplay.textContent = `${cash}`;
 
 // Game ===============================================
 
-function showModal(startModal) {
+function showModal() {
   startModal.style.display = "block";
 
   playBtn.addEventListener('click', function() {
     startModal.style.display = "none";
-    loadCards(dealerDeck, playerDeck);
+    loadCards();
   });
+
 }
 
-function loadCards(dealerDeck, playerDeck) {
+function loadCards() {
   let xhttp = new XMLHttpRequest();
   xhttp.open("GET", "cards.json", true);
   xhttp.onload = function () {
