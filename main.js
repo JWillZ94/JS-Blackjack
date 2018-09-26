@@ -526,39 +526,39 @@ function playAgain() {
   playAgainModal.style.display = "block";
   hitModal.style.display = "none";
 
-  playAgainBtn.addEventListener("click", function() {
-    playAgainModal.style.display = "none";
-
-    if (cash <= 0) {
-      restartModal.style.display = "block";
-      noCashStartOver.addEventListener("click", function() {
-        location.reload();
-      });
-    }
-
-    while (dealerHand.childNodes.length > 6) {
-      dealerHand.removeChild(dealerHand.lastChild);
-    }
-
-    while (playerHand.childNodes.length > 6) {
-      playerHand.removeChild(playerHand.lastChild);
-    }
-
-    dealerCard1 = document.getElementById('dealer-card-1');
-    dealerCard2 = document.getElementById('dealer-card-2');
-    playerCard1 = document.getElementById('player-card-1');
-    playerCard2 = document.getElementById('player-card-2');
-
-    document.getElementById('dealer-card-1').innerHTML = "";
-    document.getElementById('dealer-card-2').innerHTML = "";
-    document.getElementById('player-card-1').innerHTML = "";
-    document.getElementById('player-card-2').innerHTML = "";
-
-    dealerCards = [];
-    playerCards = [];
-
-    nextRound();
-  });
+  // playAgainBtn.addEventListener("click", function() {
+  //   playAgainModal.style.display = "none";
+  //
+  //   if (cash <= 0) {
+  //     restartModal.style.display = "block";
+  //     noCashStartOver.addEventListener("click", function() {
+  //       location.reload();
+  //     });
+  //   }
+  //
+  //   while (dealerHand.childNodes.length > 6) {
+  //     dealerHand.removeChild(dealerHand.lastChild);
+  //   }
+  //
+  //   while (playerHand.childNodes.length > 6) {
+  //     playerHand.removeChild(playerHand.lastChild);
+  //   }
+  //
+  //   dealerCard1 = document.getElementById('dealer-card-1');
+  //   dealerCard2 = document.getElementById('dealer-card-2');
+  //   playerCard1 = document.getElementById('player-card-1');
+  //   playerCard2 = document.getElementById('player-card-2');
+  //
+  //   document.getElementById('dealer-card-1').innerHTML = "";
+  //   document.getElementById('dealer-card-2').innerHTML = "";
+  //   document.getElementById('player-card-1').innerHTML = "";
+  //   document.getElementById('player-card-2').innerHTML = "";
+  //
+  //   dealerCards = [];
+  //   playerCards = [];
+  //
+  //   nextRound();
+  // });
 
   startOver.addEventListener("click", function() {
     location.reload();
