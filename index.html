@@ -21,6 +21,14 @@
     <div id="player-card-1" class="card-space"></div>
     <div id="player-card-2" class="card-space"></div>
   </div>
+  <div id="split-hand-1"></div>
+  <div id="split-hand-2"></div>
+
+  <div id="modal" class="modal">
+    <div id="modal-content" class="modal-content">
+      <p id="modal-msg"></p>
+    </div>
+  </div>
 
   <div id="start-modal" class="modal">
     <div class="modal-content">
@@ -61,6 +69,21 @@
     </div>
   </div>
 
+  <div id="split-hit-modal" class="modal">
+    <div class="modal-content">
+      <p>For this card, will you hit or stand?</p>
+      <button id="split-hit">Hit</button>
+      <button id="split-stand">Stand</button>
+    </div>
+  </div>
+
+  <div id="split-bust-modal" class="modal">
+    <div class="modal-content">
+      <p>This hand is a bust!</p>
+      <button id="split-bust">Ok</button>
+    </div>
+  </div>
+
   <div id="hit-modal" class="modal">
     <div class="modal-content">
       <p>Will you hit or stand?</p>
@@ -72,18 +95,11 @@
   <div id="play-again-modal" class="modal">
     <div class="modal-content">
       <p id="play-again-msg"></p>
-      <!-- <button id="play-again">Play Again</button> -->
-      <button id="start-over">Start Over</button>
+      <button id="start-over">Play Again</button>
     </div>
   </div>
 
-  <!-- <div id="no-cash-modal" class="modal">
-    <div class="modal-content">
-      <p>You ran out of cash, would you like to start over?</p>
-      <button id="no-cash-start-over">Start Over</button>
-    </div>
-  </div> -->
-
-  <script src="main.js" defer></script>
+  <script src="scripts/startGame.js"></script>
+  <script src="scripts/main.js"></script>
 </body>
 </html>
