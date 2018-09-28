@@ -10,6 +10,16 @@
 <body onload="showModal()">
   <p id="title">JavaScript Blackjack</p>
 
+  <div>
+    <span>Cash: </span>
+    <span id="cash"></span>
+  </div>
+
+  <div>
+    <span>Bet: </span>
+    <span id="bet"></span>
+  </div>
+
   <p class="hand-title">Dealer Cards</p>
   <div id="dealer-hand" class="dealt-cards">
     <div id="dealer-card-1" class="card-space"></div>
@@ -27,10 +37,20 @@
   <div id="modal" class="modal">
     <div id="modal-content" class="modal-content">
       <p id="modal-msg"></p>
+      <button id="modal-btn-1"></button>
+      <button id="modal-btn-2"></button>
     </div>
   </div>
 
-  <div id="start-modal" class="modal">
+  <div id="bet-modal" class="modal">
+    <div id="bet-modal-content" class="modal-content">
+      <p id="bet-modal-msg">Place your bet</p>
+      <input type="number">
+      <button id="bet-submit">Submit</button>
+    </div>
+  </div>
+
+  <!-- <div id="start-modal" class="modal">
     <div class="modal-content">
       <p>Play some 21</p>
       <button id="play">Play</button>
@@ -97,9 +117,8 @@
       <p id="play-again-msg"></p>
       <button id="start-over">Play Again</button>
     </div>
-  </div>
+  </div> -->
 
-  <script src="scripts/startGame.js"></script>
   <script src="scripts/main.js"></script>
 </body>
 </html>

@@ -1,20 +1,28 @@
-// "use strict;"
-//
-// // let test = require('./test');
-//
-// // Display Elements ======================================
-//
-// let dealerHand = document.getElementById('dealer-hand');
-// let dealerCard1 = document.getElementById('dealer-card-1');
-// let dealerCard2 = document.getElementById('dealer-card-2');
-// let playerHand = document.getElementById('player-hand');
-// let playerCard1 = document.getElementById('player-card-1');
-// let playerCard2 = document.getElementById('player-card-2');
-//
-// // Modals ==============================================
-//
-//
-//
+"use strict;"
+
+// Display Elements ======================================
+
+let modal = document.getElementById('modal');
+let modalContent = document.getElementById('modal-content');
+let modalMsg = document.getElementById('modal-msg');
+let modalBtn1 = document.getElementById('modal-btn-1');
+let modalBtn2 = document.getElementById('modal-btn-2');
+let betModal = document.getElementById('bet-modal');
+let betModalContent = document.getElementById('bet-modal-content');
+let betModalMsg = document.getElementById('bet-modal-msg');
+let betSubmit = document.getElementById('bet-submit');
+let dealerHand = document.getElementById('dealer-hand');
+let dealerCard1 = document.getElementById('dealer-card-1');
+let dealerCard2 = document.getElementById('dealer-card-2');
+let playerHand = document.getElementById('player-hand');
+let playerCard1 = document.getElementById('player-card-1');
+let playerCard2 = document.getElementById('player-card-2');
+let cash = document.getElementById('cash');
+let bet = document.getElementById('bet');
+
+// Modals ==============================================
+
+
 // let doubleModal = document.getElementById('double-modal');
 // let double = document.getElementById('double');
 // let noDouble = document.getElementById('no-double');
@@ -50,59 +58,152 @@
 //
 // let restartModal = document.getElementById('no-cash-modal');
 // let noCashStartOver = document.getElementById('no-cash-start-over');
+
+// Game data =======================================
+
+let dealerDeck = [];
+let playerDeck = [];
+let dealerCards = [];
+let playerCards = [];
+let cashAmt = 1000;
+let betAmt = "???"
+cash.textContent = `${cashAmt}`;
+bet.textContent = `${betAmt}`;
+
+// Game ===============================================
+
+function showModal() {
+  modalMsg.textContent = "Want to play BlackJack?";
+  modalBtn1.textContent = "Play!";
+  modalBtn1.addEventListener("click", startGame);
+  modal.style.display = "block";
+}
+
+const startGame = () => {
+  modalBtn1.removeEventListener("click", startGame);
+  modal.style.display = "none";
+  return fetch("cards.json")
+    .then(res => res.json())
+    .then(deck => {
+
+      class Game {
+
+        placeBet() {
+
+
+        }
+
+        createDeck() {
+          return Object.assign([], deck);
+        }
+
+        dealDealerCards() {
+          dealerCards.push(dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
+          dealerDeck.splice(dealerDeck.indexOf(dealerCards[0]), 1);
+          dealerCards.push(dealerDeck[dealerDeck.length - 1]);
+          dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
+          dealerCard1.innerHTML = `
+            <img src="${dealerCards[0].img}" width="100">
+          `;
+          dealerCard2.innerHTML = `
+            <img src="${dealerCards[1].img}" width="100">
+          `;
+        }
+
+        dealPlayerCards() {
+          // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+          playerCards.push(playerDeck[0]); // for testing purposes
+          playerDeck.splice(playerDeck.indexOf(playerCards[0]), 1);
+          // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+          playerCards.push(playerDeck[10]); // for testing purposes
+          playerDeck.splice(playerDeck.indexOf(playerCards[1]), 1);
+          playerCard1.innerHTML = `
+            <img src="${playerCards[0].img}" width="100">
+          `;
+          playerCard2.innerHTML = `
+            <img src="${playerCards[1].img}" width="100">
+          `;
+        }
+
+        checkNatural() {
+          if (
+            playerCards[0].name === "Ace" && playerCards[1].value === 10
+            || playerCards[1].name === "Ace" && playerCards[0].value === 10
+          ) {
+            dealerCards.splice(1, 1, dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
+            dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
+            dealerCard2.innerHTML = `
+              <img src="${dealerCards[1].img}" width="100">
+            `;
+            dealerCards[0].name === "Ace" && dealerCards[1].value === 10
+            || dealerCards[1].name === "Ace" && dealerCards[0].value === 10
+              ? this.bothNatural()
+              : this.playerNatural();
+          } else if (
+            dealerCards[0].name === "Ace" && dealerCards[1].value === 10
+            || dealerCards[1].name === "Ace" && dealerCards[0].value === 10
+          ) this.dealerNatural();
+        }
+
+        bothNatural() {
+          playAgainMsg.textContent = "Both of you have a natural, it's a draw.";
+          this.playAgain();
+        }
+
+        playerNatural() {
+          modalMsg.textContent = "You have a natural, you win!";
+          cashAmt += 100;
+          cash.textContent = `${cashAmt}`;
+          this.playAgain();
+        }
+
+        dealerNatural() {
+          playAgainMsg.textContent = "The dealer has a natural, you lost.";
+          this.playAgain();
+        }
+
+        playAgain() {
+          modalBtn1.textContent = "Play Again";
+          modalBtn1.addEventListener("click", this.newGame);
+          if (modalBtn2.style.display === "") modalBtn2.style.display = "block";
+          modalBtn2.textContent = "Start Over";
+          modalBtn2.addEventListener("click", () => location.reload());
+          modal.style.display = "block";
+        }
+
+        newGame() {
+          dealerDeck = game.createDeck();
+          playerDeck = game.createDeck();
+          dealerCards = [];
+          playerCards = [];
+          playerCard1.innerHTML--;
+          playerCard2.innerHTML--;
+          game.dealDealerCards();
+          game.dealPlayerCards();
+          game.checkNatural();
+
+        }
+
+      }
+
+      let game = new Game();
+
+      dealerDeck = game.createDeck();
+      playerDeck = game.createDeck();
+
+      game.dealDealerCards();
+      game.dealPlayerCards();
+      game.checkNatural();
+
+    })
+    .catch(err => err);
+}
 //
-// // Game data =======================================
-//
-// let dealerDeck = [];
-// let playerDeck = [];
-// let dealerCards = [];
-// let playerCards = [];
-//
-// // Game ===============================================
-//
-//
-//
-// function loadCards() {
-//   let xhttp = new XMLHttpRequest();
-//   xhttp.open("GET", "cards.json", true);
-//   xhttp.onload = function () {
-//     let cards = JSON.parse(this.responseText);
-//     for (let c of cards) {
-//       dealerDeck.push(c);
-//       playerDeck.push(c);
-//     }
-//
-//     dealCards();
-//   }
-//
-//   xhttp.send();
-// }
 //
 // function dealCards() {
-//   dealerCards.push(dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
-//   dealerDeck.splice(dealerDeck.indexOf(dealerCards[0]), 1);
-//   dealerCards.push(dealerDeck[dealerDeck.length - 1]);
-//   dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
+
 //
-//   // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-//   playerCards.push(playerDeck[5]); // for testing purposes
-//   playerDeck.splice(playerDeck.indexOf(playerCards[0]), 1);
-//   // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-//   playerCards.push(playerDeck[17]); // for testing purposes
-//   playerDeck.splice(playerDeck.indexOf(playerCards[1]), 1);
-//
-//   dealerCard1.innerHTML += `
-//     <img src="${dealerCards[0].img}" width="100">
-//   `;
-//   dealerCard2.innerHTML = `
-//     <img src="${dealerCards[1].img}" width="100">
-//   `;
-//   playerCard1.innerHTML = `
-//     <img src="${playerCards[0].img}" width="100">
-//   `;
-//   playerCard2.innerHTML = `
-//     <img src="${playerCards[1].img}" width="100">
-//   `;
+
 //
 //   checkNatural();
 //
@@ -119,38 +220,7 @@
 // // Natural ===========================================================
 //
 // function checkNatural() {
-//   if (
-//     playerCards[0].name === "Ace" && playerCards[1].value === 10
-//     || playerCards[1].name === "Ace" && playerCards[0].value === 10
-//   ) {
-//     dealerCards.splice(1, 1, dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
-//     dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
-//     dealerCard2.innerHTML = `
-//       <img src="${dealerCards[1].img}" width="100">
-//     `;
-//     dealerCards[0].name === "Ace" && dealerCards[1].value === 10
-//     || dealerCards[1].name === "Ace" && dealerCards[0].value === 10
-//       ? bothNatural()
-//       : playerNatural();
-//   } else if (
-//     dealerCards[0].name === "Ace" && dealerCards[1].value === 10
-//     || dealerCards[1].name === "Ace" && dealerCards[0].value === 10
-//   ) dealerNatural();
 //
-//   function bothNatural() {
-//     playAgainMsg.textContent = "Both of you have a natural, it's a draw.";
-//     playAgain();
-//   }
-//
-//   function playerNatural() {
-//     playAgainMsg.textContent = "You have a natural, you win!";
-//     playAgain();
-//   }
-//
-//   function dealerNatural() {
-//     playAgainMsg.textContent = "The dealer has a natural, you lost.";
-//     playAgain();
-//   }
 // }
 //
 // // Split Pairs =======================================

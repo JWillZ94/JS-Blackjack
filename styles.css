@@ -60,3 +60,7 @@ body {
   width: 20%;
   color: black;
 }
+
+#modal-btn-2 {
+  display: none;
+}
