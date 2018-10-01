@@ -61,6 +61,26 @@ body {
   color: black;
 }
 
-#modal-btn-2 {
-  display: none;
+#split-hand-1 {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  left: 489px;
+  bottom: 100px;
+}
+
+#split-hand-1 > div {
+  margin-bottom: -100px;
+}
+
+#split-hand-2 {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  left: 621px;
+  bottom: 330px;
+}
+
+#split-hand-2 > div {
+  margin-bottom: -100px;
 }

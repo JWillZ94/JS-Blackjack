@@ -99,7 +99,7 @@ const startGame = () => {
               game.dealPlayerCards();
               game.checkNatural();
             }
-          });
+          }, { once: true });
         }
 
         createDeck() {
@@ -123,10 +123,10 @@ const startGame = () => {
 
         dealPlayerCards() {
           // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-          playerCards.push(playerDeck[3]); // for testing purposes
+          playerCards.push(playerDeck[1]); // for testing purposes
           playerDeck.splice(playerDeck.indexOf(playerCards[0]), 1);
           // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-          playerCards.push(playerDeck[15]); // for testing purposes
+          playerCards.push(playerDeck[13]); // for testing purposes
           playerDeck.splice(playerDeck.indexOf(playerCards[1]), 1);
           playerCard1.innerHTML = `
             <img src="${playerCards[0].img}" width="100">
@@ -151,10 +151,13 @@ const startGame = () => {
               ? this.bothNatural()
               : this.playerNatural();
           } else if (
+            dealerCards[0].name === "Ace" || dealerCards[0].value === 10
+          ) {
+            this.flipCard();
             dealerCards[0].name === "Ace" && dealerCards[1].value === 10
             || dealerCards[1].name === "Ace" && dealerCards[0].value === 10
-          ) {
-            this.dealerNatural();
+              ? this.dealerNatural()
+              : this.checkPairs();
           } else {
             this.checkPairs();
           }
@@ -167,13 +170,13 @@ const startGame = () => {
 
         playerNatural() {
           playAgainMsg.textContent = "You have a natural, you've won your bet!";
-          cashAmt += betAmt;
+          cashAmt += (betAmt * 1.5);
           cash.textContent = `${cashAmt}`;
           this.playAgain();
         }
 
         dealerNatural() {
-          playAgainlMsg.textContent = "The dealer has a natural, you've lost your bet.";
+          playAgainMsg.textContent = "The dealer has a natural, you've lost your bet.";
           cashAmt -= betAmt;
           cash.textContent = `${cashAmt}`;
           this.playAgain();
@@ -188,28 +191,171 @@ const startGame = () => {
             }, { once: true });
             noSplit.addEventListener("click", function() {
               splitModal.style.display = "none";
-              // this.checkDoubleDown();
+              game.checkDoubleDown();
             }, { once: true });
           } else {
-            // this.checkDoubleDown()
+            this.checkDoubleDown();
           }
+        }
+
+        checkDoubleDown() {
+          let playerAddedVals = 0;
+          for (let card of playerCards) {
+            playerAddedVals += card.value;
+          }
+
+          if (playerAddedVals >= 9 && playerAddedVals <= 11) {
+            doubleModal.style.display = "block";
+
+            double.addEventListener("click", function() {
+              doubleModal.style.display = "none";
+              betAmt *= 2;
+              bet.textContent = `${betAmt}`;
+              game.addPlayerCard();
+              game.flipCard();
+              game.dealerPlay();
+            }, { once: true });
+
+            noDouble.addEventListener("click", function() {
+              doubleModal.style.display = "none";
+              game.checkInsurance();
+            }, { once: true });
+          } else {
+            game.checkInsurance();
+          }
+        }
+
+        checkInsurance() {
+          if (dealerCards[0].name === "Ace") {
+            earlySurrender();
+          } else {
+            game.hitOrStand();
+          }
+
+          function earlySurrender() {
+            surrenderModal.style.display = "block";
+
+            surrender.addEventListener("click", function() {
+              surrenderModal.style.display = "none";
+              cashAmt -= betAmt;
+              cash.textContent = `${cashAmt}`;
+              playAgainMsg.textContent = "You surrendered, you lost.";
+              game.playAgain();
+            }, { once: true });
+
+            noSurrender.addEventListener("click", function() {
+              surrenderModal.style.display = "none";
+              chooseInsurance();
+            }, { once: true });
+          }
+
+          function chooseInsurance() {
+            insuranceModal.style.display = "block";
+
+            insurance.addEventListener("click", function() {
+              insuranceModal.style.display = "none";
+              sideBet();
+            }, { once: true });
+
+            noInsurance.addEventListener("click", function() {
+              insuranceModal.style.display = "none";
+              dealerFlipInsurance();
+            }, { once: true });
+          }
+
+          function sideBet() {
+            betModal.style.display = "block";
+            betSubmit.addEventListener("click", () => {
+              betModal.style.display = "none";
+              let sideBet = Number(betModalInput.value);
+              game.flipCard();
+              if (dealerCards[1].value === 10) {
+                cashAmt += sideBet;
+                cashAmt -= betAmt;
+                cash.textContent = `${cashAmt}`;
+                playAgainMsg.textContent = "The dealer has a blackjack, you lost.";
+                game.playAgain();
+              } else {
+                game.dealerPlay();
+              }
+            }, { once: true });
+          }
+
+          function dealerFlipInsurance() {
+            game.flipCard();
+            if (dealerCards[1].value === 10) {
+              cashAmt -= betAmt;
+              cash.textContent = `${cashAmt}`;
+              playAgainMsg.textContent = "The dealer has a blackjack, you lost.";
+              game.playAgain();
+            } else {
+              game.dealerPlay();
+            }
+          }
+
+        }
+
+        hitOrStand() {
+          hitModal.style.display = "block";
+
+          hit.addEventListener('click', playerHitHandler);
+
+          function playerHitHandler() {
+            game.addPlayerCard();
+            game.check21(playerHitHandler);
+          }
+
+          stand.addEventListener('click', function () {
+            hitModal.style.display = "none";
+            hit.removeEventListener('click', playerHitHandler);
+            game.flipCard();
+            game.dealerPlay(null, playerCards);
+          }, { once: true });
+        }
+
+        check21(handler) {
+          let playerAddedVals = 0;
+          for (let card of playerCards) {
+            playerAddedVals += card.value;
+          }
+          if (playerAddedVals > 21) return game.bust(handler);
+        }
+
+        bust(handler) {
+          hitModal.style.display = "none";
+          hit.removeEventListener('click', handler);
+          playAgainMsg.textContent = "You have a bust, you lost.";
+          cashAmt -= betAmt;
+          cash.textContent = `${cashAmt}`;
+          this.playAgain();
+        }
+
+        addPlayerCard() {
+          playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+          playerDeck.splice(playerDeck.indexOf(playerCards[playerCards.length - 1]), 1);
+
+          playerHand.innerHTML += `
+            <div>
+              <img src="${playerCards[playerCards.length - 1].img}" width="100">
+            </div>
+          `;
         }
 
         hitOrStandPairs(arr, num) {
           splitHitModal.style.display = "block";
-          function addPairHandler() {
-            game.addPlayerCardPair(arr, num, addPairHandler);
-          }
-          splitHit.addEventListener('click', addPairHandler);
           function standPairHandler() {
             splitHitModal.style.display = "none";
             game.flipCard();
-            game.dealerPlay(arr, num, standPairHandler);
+            game.dealerPlay(arr, num, addPairHandler, standPairHandler);
           }
+          function addPairHandler() {
+            game.addPlayerCardPair(arr, num, addPairHandler, standPairHandler);
+          }
+          splitHit.addEventListener('click', addPairHandler);
           splitStand.addEventListener('click', standPairHandler, { once: true });
         }
 
-        addPlayerCardPair(arr, num, handler) {
+        addPlayerCardPair(arr, num, handler, handler2) {
           if (num === 1) {
             arr.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
             playerDeck.splice(arr.indexOf(arr[arr.length - 1]), 1);
@@ -225,6 +371,7 @@ const startGame = () => {
             if (playerAddedVals > 21) {
               splitHitModal.style.display = "none";
               splitHit.removeEventListener("click", handler);
+              splitStand.removeEventListener("click", handler2);
               game.bustPair(num);
             }
           } else {
@@ -242,6 +389,7 @@ const startGame = () => {
             if (playerAddedVals > 21) {
               splitHitModal.style.display = "none";
               splitHit.removeEventListener("click", handler);
+              splitStand.removeEventListener("click", handler2);
               game.bustPair(num);
             }
           }
@@ -264,14 +412,18 @@ const startGame = () => {
         }
 
         flipCard() {
-          dealerCards.splice(1, 1, dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
-          dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
-          dealerCard2.innerHTML = `
-            <img src="${dealerCards[1].img}" width="100">
-          `;
+          if (dealerCards[1].name === "facedown") {
+            dealerCards.splice(1, 1, dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
+            dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
+            dealerCard2.innerHTML = `
+              <img src="${dealerCards[1].img}" width="100">
+            `;
+          }
         }
 
-        dealerPlay(arr, num, handler) {
+        dealerPlay(arr, num, handler, handler2) {
+          splitHit.removeEventListener("click", handler);
+          splitStand.removeEventListener("click", handler2);
           let dealerAddedVals = 0;
           for (let card of dealerCards) {
             dealerAddedVals += card.value;
@@ -345,6 +497,7 @@ const startGame = () => {
           cash.textContent = `${cashAmt}`;
           splitHand.addEventListener("click", function() {
             splitHandModal.style.display = "none";
+            playAgainMsg.textContent = "Would you like to play again?";
             num === 1
               ? game.hitOrStandPairs([playerCards[1]], 2)
               : game.playAgain();
@@ -358,6 +511,7 @@ const startGame = () => {
           cash.textContent = `${cashAmt}`;
           splitHand.addEventListener("click", function() {
             splitHandModal.style.display = "none";
+            playAgainMsg.textContent = "Would you like to play again?";
             num === 1
               ? game.hitOrStandPairs([playerCards[1]], 2)
               : game.playAgain();
@@ -369,6 +523,7 @@ const startGame = () => {
           splitHandModal.style.display = "block";
           splitHand.addEventListener("click", function() {
             splitHandModal.style.display = "none";
+            playAgainMsg.textContent = "Would you like to play again?";
             num === 1
               ? game.hitOrStandPairs([playerCards[1]], 2)
               : game.playAgain();
@@ -419,7 +574,7 @@ const startGame = () => {
 
         playAgain() {
           playAgainModal.style.display = "block";
-          playAgainBtn.addEventListener("click", this.newGame);
+          playAgainBtn.addEventListener("click", this.newGame, { once: true });
           startOver.addEventListener("click", () => location.reload());
         }
 
@@ -427,10 +582,10 @@ const startGame = () => {
           playAgainModal.style.display = "none";
           dealerCards = [];
           playerCards = [];
-          console.log(dealerHand.children.length);
           while (dealerHand.children.length > 2) dealerHand.removeChild(dealerHand.lastChild);
-          console.log(dealerHand.children.length);
           while (playerHand.children.length > 2) playerHand.removeChild(playerHand.lastChild);
+          dealerHand.children.innerHTML = "";
+          playerHand.children.innerHTML = "";
           dealerCard1.innerHTML = "";
           dealerCard2.innerHTML = "";
           playerCard1.innerHTML = "";
@@ -455,127 +610,3 @@ const startGame = () => {
     })
     .catch(err => err);
 }
-//
-//
-// function dealCards() {
-//
-//   checkInsurance();
-//
-//   // hitOrStand();
-//
-// // Double Down =========================================
-//
-// function checkDoubleDown() {
-//   let playerAddedVals = 0;
-//   for (let card of playerCards) {
-//     playerAddedVals += card.value;
-//   }
-//
-//   if (playerAddedVals >= 9 && playerAddedVals <= 11) {
-//     doubleModal.style.display = "block";
-//
-//     double.addEventListener("click", function() {
-//
-//       addPlayerCard();
-//       flipCard();
-//       dealerPlay();
-//     });
-//
-//     noDouble.addEventListener("click", function() {
-//       doubleModal.style.display = "none";
-//     });
-//   }
-// }
-//
-// // Insurance =========================================
-//
-// function checkInsurance() {
-//   if (dealerCards[0].name === "Ace") {
-//     earlySurrender();
-//     chooseInsurance();
-//   }
-//
-//   function earlySurrender() {
-//     surrenderModal.style.display = "block";
-//
-//     surrender.addEventListener("click", function() {
-//       surrenderModal.style.display = "none";
-//       playAgainMsg.textContent = "You surrendered, you lost.";
-//       playAgain();
-//     });
-//
-//     noSurrender.addEventListener("click", function() {
-//       surrenderModal.style.display = "none";
-//     });
-//   }
-//
-//   function chooseInsurance() {
-//     insuranceModal.style.display = "block";
-//
-//     insurance.addEventListener("click", function() {
-//       insuranceModal.style.display = "none";
-//       sideBet();
-//     });
-//
-//     noInsurance.addEventListener("click", function() {
-//       insuranceModal.style.display = "none";
-//     });
-//   }
-//
-//   function sideBet() {
-//
-//     flipCard();
-//
-//     if (dealerCards[1].value === 10) {
-//       playAgainMsg.textContent = "The dealer has a blackjack, you lost.";
-//       playAgain();
-//     }
-//   }
-// }
-//
-// // Hit or Stand ======================================
-//
-// function hitOrStand() {
-//   hitModal.style.display = "block";
-//
-//   hit.addEventListener('click', function() {
-//
-//     addPlayerCard();
-//
-//     check21();
-//   });
-//
-//   stand.addEventListener('click', function () {
-//     hitModal.style.display = "none";
-//     flipCard();
-//     dealerPlay();
-//   });
-//
-// }
-//
-// function addPlayerCard() {
-//   playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-//   playerDeck.splice(playerDeck.indexOf(playerCards[playerCards.length - 1]), 1);
-//
-//   playerHand.innerHTML += `
-//     <div>
-//       <img src="${playerCards[playerCards.length - 1].img}" width="100">
-//     </div>
-//   `;
-// }
-//
-// function check21() {
-//   let playerAddedVals = 0;
-//   for (let card of playerCards) {
-//     playerAddedVals += card.value;
-//   }
-//
-//   if (playerAddedVals > 21) return bust();
-// }
-//
-// function bust() {
-//   hitModal.style.display = "none";
-//   playAgainMsg.textContent = "You have a bust, you lost.";
-//   playAgain();
-// }
-//
