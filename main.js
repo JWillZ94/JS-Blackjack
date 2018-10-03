@@ -58,9 +58,6 @@ let playAgainModal = document.getElementById('play-again-modal');
 let playAgainMsg = document.getElementById('play-again-msg');
 let playAgainBtn = document.getElementById('play-again');
 let startOver = document.getElementById('start-over');
-//
-// let restartModal = document.getElementById('no-cash-modal');
-// let noCashStartOver = document.getElementById('no-cash-start-over');
 
 // Game data =======================================
 
@@ -107,12 +104,17 @@ const startGame = () => {
         }
 
         dealDealerCards() {
-          dealerCards.push(dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
-          // dealerCards.push(dealerDeck[0]); // for testing purposes
+          // dealerCards.push(dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
+          dealerCards.push(dealerDeck[0]); // for testing purposes
           dealerDeck.splice(dealerDeck.indexOf(dealerCards[0]), 1);
           dealerCards.push(dealerDeck[dealerDeck.length - 1]);
           // dealerCards.push(dealerDeck[10]); // for testing purposes
           dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
+          for (let i = 0; i < dealerHand.children.length; i++) {
+            dealerHand.children[i].innerHTML = `
+              <img src="${dealerCards[i].img}" width="100">
+            `;
+          }
           dealerCard1.innerHTML = `
             <img src="${dealerCards[0].img}" width="100">
           `;
@@ -122,12 +124,17 @@ const startGame = () => {
         }
 
         dealPlayerCards() {
-          // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-          playerCards.push(playerDeck[1]); // for testing purposes
+          playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+          // playerCards.push(playerDeck[1]); // for testing purposes
           playerDeck.splice(playerDeck.indexOf(playerCards[0]), 1);
-          // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-          playerCards.push(playerDeck[13]); // for testing purposes
+          playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+          // playerCards.push(playerDeck[5]); // for testing purposes
           playerDeck.splice(playerDeck.indexOf(playerCards[1]), 1);
+          for (let i = 0; i < playerHand.children.length; i++) {
+            playerHand.children[i].innerHTML = `
+              <img src="${playerCards[i].img}" width="100">
+            `;
+          }
           playerCard1.innerHTML = `
             <img src="${playerCards[0].img}" width="100">
           `;
@@ -154,10 +161,20 @@ const startGame = () => {
             dealerCards[0].name === "Ace" || dealerCards[0].value === 10
           ) {
             this.flipCard();
-            dealerCards[0].name === "Ace" && dealerCards[1].value === 10
-            || dealerCards[1].name === "Ace" && dealerCards[0].value === 10
-              ? this.dealerNatural()
-              : this.checkPairs();
+            if (dealerCards[0].name === "Ace" && dealerCards[1].value === 10
+            || dealerCards[1].name === "Ace" && dealerCards[0].value === 10) {
+              for (let i = 1; i < dealerHand.children.length; i++) {
+                dealerHand.children[i].innerHTML = `
+                  <img src="${dealerCards[i].img}" width="100">
+                `;
+              }
+              dealerCard2.innerHTML = `
+                <img src="${dealerCards[1].img}" width="100">
+              `;
+              this.dealerNatural();
+            } else {
+              this.checkPairs();
+            }
           } else {
             this.checkPairs();
           }
@@ -213,7 +230,7 @@ const startGame = () => {
               bet.textContent = `${betAmt}`;
               game.addPlayerCard();
               game.flipCard();
-              game.dealerPlay();
+              game.dealerPlay(playerCards);
             }, { once: true });
 
             noDouble.addEventListener("click", function() {
@@ -259,7 +276,7 @@ const startGame = () => {
 
             noInsurance.addEventListener("click", function() {
               insuranceModal.style.display = "none";
-              dealerFlipInsurance();
+              dealerFlipNoInsurance();
             }, { once: true });
           }
 
@@ -270,26 +287,42 @@ const startGame = () => {
               let sideBet = Number(betModalInput.value);
               game.flipCard();
               if (dealerCards[1].value === 10) {
+                for (let i = 1; i < dealerHand.children.length; i++) {
+                  dealerHand.children[i].innerHTML = `
+                    <img src="${dealerCards[i].img}" width="100">
+                  `;
+                }
+                dealerCard2.innerHTML = `
+                  <img src="${dealerCards[1].img}" width="100">
+                `;
                 cashAmt += sideBet;
                 cashAmt -= betAmt;
                 cash.textContent = `${cashAmt}`;
-                playAgainMsg.textContent = "The dealer has a blackjack, you lost.";
+                playAgainMsg.textContent = "The dealer has a blackjack, you lost. However, you have insurance.";
                 game.playAgain();
               } else {
-                game.dealerPlay();
+                game.hitOrStand();
               }
             }, { once: true });
           }
 
-          function dealerFlipInsurance() {
+          function dealerFlipNoInsurance() {
             game.flipCard();
             if (dealerCards[1].value === 10) {
+              for (let i = 1; i < dealerHand.children.length; i++) {
+                dealerHand.children[i].innerHTML = `
+                  <img src="${dealerCards[i].img}" width="100">
+                `;
+              }
+              dealerCard2.innerHTML = `
+                <img src="${dealerCards[1].img}" width="100">
+              `;
               cashAmt -= betAmt;
               cash.textContent = `${cashAmt}`;
               playAgainMsg.textContent = "The dealer has a blackjack, you lost.";
               game.playAgain();
             } else {
-              game.dealerPlay();
+              game.hitOrStand();
             }
           }
 
@@ -309,7 +342,7 @@ const startGame = () => {
             hitModal.style.display = "none";
             hit.removeEventListener('click', playerHitHandler);
             game.flipCard();
-            game.dealerPlay(null, playerCards);
+            game.dealerPlay(playerCards);
           }, { once: true });
         }
 
@@ -415,15 +448,20 @@ const startGame = () => {
           if (dealerCards[1].name === "facedown") {
             dealerCards.splice(1, 1, dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
             dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
-            dealerCard2.innerHTML = `
-              <img src="${dealerCards[1].img}" width="100">
-            `;
           }
         }
 
         dealerPlay(arr, num, handler, handler2) {
           splitHit.removeEventListener("click", handler);
           splitStand.removeEventListener("click", handler2);
+          for (let i = 1; i < dealerHand.children.length; i++) {
+            dealerHand.children[i].innerHTML = `
+              <img src="${dealerCards[i].img}" width="100">
+            `;
+          }
+          dealerCard2.innerHTML = `
+            <img src="${dealerCards[1].img}" width="100">
+          `;
           let dealerAddedVals = 0;
           for (let card of dealerCards) {
             dealerAddedVals += card.value;
@@ -573,6 +611,10 @@ const startGame = () => {
         }
 
         playAgain() {
+          if (cashAmt <= 0) {
+            playAgainMsg.textContent = "You ran out of cash. You must start over.";
+            playAgainBtn.style.display = "none";
+          }
           playAgainModal.style.display = "block";
           playAgainBtn.addEventListener("click", this.newGame, { once: true });
           startOver.addEventListener("click", () => location.reload());
@@ -584,8 +626,12 @@ const startGame = () => {
           playerCards = [];
           while (dealerHand.children.length > 2) dealerHand.removeChild(dealerHand.lastChild);
           while (playerHand.children.length > 2) playerHand.removeChild(playerHand.lastChild);
-          dealerHand.children.innerHTML = "";
-          playerHand.children.innerHTML = "";
+          for (let child of dealerHand.children) {
+            child.innerHTML = "";
+          }
+          for (let child of playerHand.children) {
+            child.innerHTML = "";
+          }
           dealerCard1.innerHTML = "";
           dealerCard2.innerHTML = "";
           playerCard1.innerHTML = "";
