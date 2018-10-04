@@ -46,6 +46,13 @@ body {
   height: 106.974px;
 }
 
+.card {
+  animation-name: dropdown;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  position: relative;
+}
+
 .dealt-cards {
   display: flex;
   justify-content: center;
@@ -82,6 +89,26 @@ body {
   border-radius: 15px;
   width: 20%;
   color: #fff;
+  position: relative;
+  animation-name: dropdown;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+@keyframes dropdown {
+  0% {
+    bottom: 100px;
+    opacity: 0;
+  }
+  25% {
+    opacity: 0;
+  }
+  100% {
+    bottom: 0px;
+    opacity: 1;
+  }
 }
 
 .modal-msg {
@@ -103,7 +130,6 @@ body {
   flex-direction: column;
   width: 70px;
   margin: -35px 16px;
-
 }
 
 .splt > div {
