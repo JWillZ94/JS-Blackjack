@@ -1,49 +1,11 @@
-body {
-  background: #006622;
-  color: #fff;
-  font-family: sans-serif;
-}
-
-.btn {
-  border-radius: 5px;
-  border: 2px solid #006622;
-  color: #006622;
-  cursor: pointer;
-  background: #fff;
-  padding: 5px 6px;
-}
-
 .btn:hover {
   border: 2px solid #fff;
   color: #fff;
   background: #006622;
 }
 
-#title {
-  text-align: center;
-  font-family: 'Ultra', serif;
-  font-size: 2.5em;
-  margin: 2rem 0;
-}
-
-#stats {
-  font-family: 'Ultra', serif;
-  float: left;
-}
-
 #dollar {
   font-size: 1.5em;
-}
-
-.hand-title {
-  font-size: 2em;
-  text-align: center;
-  font-family: 'Ultra', serif;
-}
-
-.card-space {
-  width: 70px;
-  height: 106.974px;
 }
 
 .card {
@@ -60,64 +22,6 @@ body {
 
 .dealt-cards div {
   margin: 0 1rem;
-}
-
-#dealer-cards-title {
-  position: relative;
-  right: 58px;
-}
-
-.modal {
-  display: none;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background: rgb(0, 0, 0);
-  background: rgba(0, 0, 0, 0.4);
-  position: fixed;
-}
-
-.modal-content {
-  background: #972a27;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 1);
-  margin: 18% 70%;
-  padding: 20px;
-  border: 1px solid #fff;
-  border-radius: 15px;
-  width: 20%;
-  color: #fff;
-  position: relative;
-  animation-name: dropdown;
-  animation-duration: 1.5s;
-  animation-fill-mode: forwards;
-  animation-delay: 0.5s;
-  opacity: 0;
-}
-
-@keyframes dropdown {
-  0% {
-    bottom: 100px;
-    opacity: 0;
-  }
-  25% {
-    opacity: 0;
-  }
-  100% {
-    bottom: 0px;
-    opacity: 1;
-  }
-}
-
-.modal-msg {
-  text-align: center;
-}
-
-.modal-btns {
-  display: flex;
-  justify-content: space-around;
 }
 
 #split-hands {

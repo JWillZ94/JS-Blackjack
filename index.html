@@ -4,9 +4,109 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" media="none" onload="if(media!='all')media='all'">
   <link href="https://fonts.googleapis.com/css?family=Ultra" rel="stylesheet">
   <title>JS Blackjack</title>
+  <style>
+    body {
+      background: #006622;
+      color: #fff;
+      font-family: sans-serif;
+    }
+
+    .btn {
+      border-radius: 5px;
+      border: 2px solid #006622;
+      color: #006622;
+      cursor: pointer;
+      background: #fff;
+      padding: 5px 6px;
+    }
+
+    #title {
+      text-align: center;
+      font-family: 'Ultra', serif;
+      font-size: 2.5em;
+      margin: 2rem 0;
+    }
+
+    #stats {
+      font-family: 'Ultra', serif;
+      float: left;
+    }
+
+    .hand-title {
+      font-size: 2em;
+      text-align: center;
+      font-family: 'Ultra', serif;
+    }
+
+    .card-space {
+      width: 70px;
+      height: 106.974px;
+    }
+
+    #dealer-cards-title {
+      position: relative;
+      right: 58px;
+    }
+
+    .modal {
+      display: none;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgb(0, 0, 0);
+      background: rgba(0, 0, 0, 0.4);
+      position: fixed;
+    }
+
+    .modal-content {
+      background: #972a27;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 1);
+      margin: 18% 70%;
+      padding: 20px;
+      border: 1px solid #fff;
+      border-radius: 15px;
+      width: 20%;
+      color: #fff;
+      position: relative;
+      animation-name: dropdown;
+      animation-duration: 1.5s;
+      animation-fill-mode: forwards;
+      animation-delay: 0.5s;
+      opacity: 0;
+    }
+
+    @keyframes dropdown {
+      0% {
+        bottom: 100px;
+        opacity: 0;
+      }
+      25% {
+        opacity: 0;
+      }
+      100% {
+        bottom: 0px;
+        opacity: 1;
+      }
+    }
+
+    .modal-msg {
+      text-align: center;
+    }
+
+    .modal-btns {
+      display: flex;
+      justify-content: space-around;
+    }
+  </style>
+  <noscript>
+    <link rel="stylesheet" href="styles.css">
+  </noscript>
 </head>
 <body onload="showModal()">
   <p id="title">JavaScript Blackjack</p>

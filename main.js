@@ -124,11 +124,11 @@ const startGame = () => {
         }
 
         dealPlayerCards() {
-          // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-          playerCards.push(playerDeck[1]); // for testing purposes
+          playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+          // playerCards.push(playerDeck[1]); // for testing purposes
           playerDeck.splice(playerDeck.indexOf(playerCards[0]), 1);
-          // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-          playerCards.push(playerDeck[13]); // for testing purposes
+          playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+          // playerCards.push(playerDeck[13]); // for testing purposes
           playerDeck.splice(playerDeck.indexOf(playerCards[1]), 1);
           for (let i = 0; i < playerHand.children.length; i++) {
             playerHand.children[i].innerHTML = `
