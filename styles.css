@@ -1,32 +1,49 @@
 body {
   background: #006622;
   color: #fff;
+  font-family: sans-serif;
+}
+
+.btn {
+  border-radius: 5px;
+  border: 2px solid #006622;
+  color: #006622;
+  cursor: pointer;
+  background: #fff;
+  padding: 5px 6px;
+}
+
+.btn:hover {
+  border: 2px solid #fff;
+  color: #fff;
+  background: #006622;
 }
 
 #title {
   text-align: center;
+  font-family: 'Ultra', serif;
   font-size: 2.5em;
+  margin: 2rem 0;
 }
 
 #stats {
-  display: flex;
-  position: absolute;
-  top: 20px;
-  left: 20px;
+  font-family: 'Ultra', serif;
+  float: left;
 }
 
-#stats p {
-  margin: 0 2rem 0 0;
+#dollar {
+  font-size: 1.5em;
 }
 
 .hand-title {
   font-size: 2em;
   text-align: center;
+  font-family: 'Ultra', serif;
 }
 
 .card-space {
-  width: 100px;
-  height: 152.813px;
+  width: 70px;
+  height: 106.974px;
 }
 
 .dealt-cards {
@@ -35,7 +52,12 @@ body {
 }
 
 .dealt-cards div {
-  margin: 0 1rem 0 1rem;
+  margin: 0 1rem;
+}
+
+#dealer-cards-title {
+  position: relative;
+  right: 58px;
 }
 
 .modal {
@@ -47,40 +69,43 @@ body {
   height: 100%;
   overflow: auto;
   background: rgb(0, 0, 0);
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.4);
   position: fixed;
 }
 
 .modal-content {
-  background: #fefefe;
+  background: #972a27;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 1);
   margin: 18% 70%;
   padding: 20px;
-  border: 1px solid #888;
+  border: 1px solid #fff;
   border-radius: 15px;
   width: 20%;
-  color: black;
+  color: #fff;
 }
 
-#split-hand-1 {
+.modal-msg {
+  text-align: center;
+}
+
+.modal-btns {
+  display: flex;
+  justify-content: space-around;
+}
+
+#split-hands {
+  display: flex;
+  justify-content: center;
+}
+
+.splt {
   display: flex;
   flex-direction: column;
-  position: relative;
-  left: 489px;
-  bottom: 100px;
+  width: 70px;
+  margin: -35px 16px;
+
 }
 
-#split-hand-1 > div {
-  margin-bottom: -100px;
-}
-
-#split-hand-2 {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  left: 621px;
-  bottom: 330px;
-}
-
-#split-hand-2 > div {
-  margin-bottom: -100px;
+.splt > div {
+  margin: -40px 0;
 }

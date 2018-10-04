@@ -104,42 +104,42 @@ const startGame = () => {
         }
 
         dealDealerCards() {
-          // dealerCards.push(dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
-          dealerCards.push(dealerDeck[0]); // for testing purposes
+          dealerCards.push(dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
+          // dealerCards.push(dealerDeck[0]); // for testing purposes
           dealerDeck.splice(dealerDeck.indexOf(dealerCards[0]), 1);
           dealerCards.push(dealerDeck[dealerDeck.length - 1]);
           // dealerCards.push(dealerDeck[10]); // for testing purposes
           dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
           for (let i = 0; i < dealerHand.children.length; i++) {
             dealerHand.children[i].innerHTML = `
-              <img src="${dealerCards[i].img}" width="100">
+              <img src="${dealerCards[i].img}" width="70">
             `;
           }
           dealerCard1.innerHTML = `
-            <img src="${dealerCards[0].img}" width="100">
+            <img src="${dealerCards[0].img}" width="70">
           `;
           dealerCard2.innerHTML = `
-            <img src="${dealerCards[1].img}" width="100">
+            <img src="${dealerCards[1].img}" width="70">
           `;
         }
 
         dealPlayerCards() {
-          playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-          // playerCards.push(playerDeck[1]); // for testing purposes
+          // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+          playerCards.push(playerDeck[1]); // for testing purposes
           playerDeck.splice(playerDeck.indexOf(playerCards[0]), 1);
-          playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
-          // playerCards.push(playerDeck[5]); // for testing purposes
+          // playerCards.push(playerDeck[Math.floor(Math.random() * (playerDeck.length - 1))]);
+          playerCards.push(playerDeck[13]); // for testing purposes
           playerDeck.splice(playerDeck.indexOf(playerCards[1]), 1);
           for (let i = 0; i < playerHand.children.length; i++) {
             playerHand.children[i].innerHTML = `
-              <img src="${playerCards[i].img}" width="100">
+              <img src="${playerCards[i].img}" width="70">
             `;
           }
           playerCard1.innerHTML = `
-            <img src="${playerCards[0].img}" width="100">
+            <img src="${playerCards[0].img}" width="70">
           `;
           playerCard2.innerHTML = `
-            <img src="${playerCards[1].img}" width="100">
+            <img src="${playerCards[1].img}" width="70">
           `;
         }
 
@@ -151,7 +151,7 @@ const startGame = () => {
             dealerCards.splice(1, 1, dealerDeck[Math.floor(Math.random() * (dealerDeck.length - 1))]);
             dealerDeck.splice(dealerDeck.indexOf(dealerCards[1]), 1);
             dealerCard2.innerHTML = `
-              <img src="${dealerCards[1].img}" width="100">
+              <img src="${dealerCards[1].img}" width="70">
             `;
             dealerCards[0].name === "Ace" && dealerCards[1].value === 10
             || dealerCards[1].name === "Ace" && dealerCards[0].value === 10
@@ -165,11 +165,11 @@ const startGame = () => {
             || dealerCards[1].name === "Ace" && dealerCards[0].value === 10) {
               for (let i = 1; i < dealerHand.children.length; i++) {
                 dealerHand.children[i].innerHTML = `
-                  <img src="${dealerCards[i].img}" width="100">
+                  <img src="${dealerCards[i].img}" width="70">
                 `;
               }
               dealerCard2.innerHTML = `
-                <img src="${dealerCards[1].img}" width="100">
+                <img src="${dealerCards[1].img}" width="70">
               `;
               this.dealerNatural();
             } else {
@@ -289,11 +289,11 @@ const startGame = () => {
               if (dealerCards[1].value === 10) {
                 for (let i = 1; i < dealerHand.children.length; i++) {
                   dealerHand.children[i].innerHTML = `
-                    <img src="${dealerCards[i].img}" width="100">
+                    <img src="${dealerCards[i].img}" width="70">
                   `;
                 }
                 dealerCard2.innerHTML = `
-                  <img src="${dealerCards[1].img}" width="100">
+                  <img src="${dealerCards[1].img}" width="70">
                 `;
                 cashAmt += sideBet;
                 cashAmt -= betAmt;
@@ -311,11 +311,11 @@ const startGame = () => {
             if (dealerCards[1].value === 10) {
               for (let i = 1; i < dealerHand.children.length; i++) {
                 dealerHand.children[i].innerHTML = `
-                  <img src="${dealerCards[i].img}" width="100">
+                  <img src="${dealerCards[i].img}" width="70">
                 `;
               }
               dealerCard2.innerHTML = `
-                <img src="${dealerCards[1].img}" width="100">
+                <img src="${dealerCards[1].img}" width="70">
               `;
               cashAmt -= betAmt;
               cash.textContent = `${cashAmt}`;
@@ -369,7 +369,7 @@ const startGame = () => {
 
           playerHand.innerHTML += `
             <div>
-              <img src="${playerCards[playerCards.length - 1].img}" width="100">
+              <img src="${playerCards[playerCards.length - 1].img}" width="70">
             </div>
           `;
         }
@@ -394,7 +394,7 @@ const startGame = () => {
             playerDeck.splice(arr.indexOf(arr[arr.length - 1]), 1);
             splitHand1.innerHTML += `
               <div>
-                <img src="${arr[arr.length - 1].img}" width="100">
+                <img src="${arr[arr.length - 1].img}" width="70">
               </div>
             `;
             let playerAddedVals = 0;
@@ -412,7 +412,7 @@ const startGame = () => {
             playerDeck.splice(arr.indexOf(arr[arr.length - 1]), 1);
             splitHand2.innerHTML += `
               <div>
-                <img src="${arr[arr.length - 1].img}" width="100">
+                <img src="${arr[arr.length - 1].img}" width="70">
               </div>
             `;
             let playerAddedVals = 0;
@@ -456,11 +456,11 @@ const startGame = () => {
           splitStand.removeEventListener("click", handler2);
           for (let i = 1; i < dealerHand.children.length; i++) {
             dealerHand.children[i].innerHTML = `
-              <img src="${dealerCards[i].img}" width="100">
+              <img src="${dealerCards[i].img}" width="70">
             `;
           }
           dealerCard2.innerHTML = `
-            <img src="${dealerCards[1].img}" width="100">
+            <img src="${dealerCards[1].img}" width="70">
           `;
           let dealerAddedVals = 0;
           for (let card of dealerCards) {
@@ -479,7 +479,7 @@ const startGame = () => {
 
             dealerHand.innerHTML += `
               <div>
-                <img src="${dealerCards[dealerCards.length - 1].img}" width="100">
+                <img src="${dealerCards[dealerCards.length - 1].img}" width="70">
               </div>
             `;
 

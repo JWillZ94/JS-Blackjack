@@ -5,117 +5,153 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Ultra" rel="stylesheet">
   <title>JS Blackjack</title>
 </head>
 <body onload="showModal()">
   <p id="title">JavaScript Blackjack</p>
 
-  <div>
-    <span>Cash: </span>
-    $<span id="cash"></span>
+  <div id="content">
+
+    <div id="stats">
+      <div>
+        <span>Cash: </span>
+        $<span id="cash"></span>
+      </div>
+      <div>
+        <span>Bet: </span>
+        $<span id="bet"></span>
+      </div>
+    </div>
+
+    <div id="table">
+      <p class="hand-title" id="dealer-cards-title">Dealer Cards</p>
+      <div id="dealer-hand" class="dealt-cards">
+        <div id="dealer-card-1" class="card-space"></div>
+        <div id="dealer-card-2" class="card-space"></div>
+      </div>
+
+      <p class="hand-title">Player Cards</p>
+      <div id="player-hand" class="dealt-cards">
+        <div id="player-card-1" class="card-space"></div>
+        <div id="player-card-2" class="card-space"></div>
+      </div>
+      <div id="split-hands">
+        <div id="split-hand-1" class="splt"></div>
+        <div id="split-hand-2" class="splt"></div>
+      </div>
+
+    </div>
+
   </div>
 
-  <div>
-    <span>Bet: </span>
-    $<span id="bet"></span>
-  </div>
 
-  <p class="hand-title">Dealer Cards</p>
-  <div id="dealer-hand" class="dealt-cards">
-    <div id="dealer-card-1" class="card-space"></div>
-    <div id="dealer-card-2" class="card-space"></div>
-  </div>
 
-  <p class="hand-title">Player Cards</p>
-  <div id="player-hand" class="dealt-cards">
-    <div id="player-card-1" class="card-space"></div>
-    <div id="player-card-2" class="card-space"></div>
-  </div>
-  <div id="split-hand-1"></div>
-  <div id="split-hand-2"></div>
 
   <div id="start-modal" class="modal">
     <div class="modal-content">
-      <p>Play some 21</p>
-      <button id="play">Play</button>
+      <p class="modal-msg">Let's play some Blackjack!</p>
+      <div class="modal-btns">
+        <button id="play" class="btn">Play</button>
+      </div>
     </div>
   </div>
 
   <div id="double-modal" class="modal">
     <div class="modal-content">
-      <p>Would you like to double down?</p>
-      <button id="double">Yes</button>
-      <button id="no-double">No</button>
+      <p class="modal-msg">Would you like to double down?</p>
+      <div class="modal-btns">
+        <button id="double" class="btn">Yes</button>
+        <button id="no-double" class="btn">No</button>
+      </div>
     </div>
   </div>
 
   <div id="surrender-modal" class="modal">
     <div class="modal-content">
-      <p>Would you like to surrender?</p>
-      <button id="surrender">Yes</button>
-      <button id="no-surrender">No</button>
+      <p class="modal-msg">Would you like to surrender?</p>
+      <div class="modal-btns">
+        <button id="surrender" class="btn">Yes</button>
+        <button id="no-surrender" class="btn">No</button>
+      </div>
     </div>
   </div>
 
   <div id="insurance-modal" class="modal">
     <div class="modal-content">
-      <p>Would you like insurance?</p>
-      <button id="insurance">Yes</button>
-      <button id="no-insurance">No</button>
+      <p class="modal-msg">Would you like insurance?</p>
+      <div class="modal-btns">
+        <button id="insurance" class="btn">Yes</button>
+        <button id="no-insurance" class="btn">No</button>
+      </div>
     </div>
   </div>
 
   <div id="split-modal" class="modal">
     <div class="modal-content">
-      <p>Would you like to split your pair?</p>
-      <button id="split">Yes</button>
-      <button id="no-split">No</button>
+      <p class="modal-msg">Would you like to split your pair?</p>
+      <div class="modal-btns">
+        <button id="split" class="btn">Yes</button>
+        <button id="no-split" class="btn">No</button>
+      </div>
     </div>
   </div>
 
   <div id="split-hit-modal" class="modal">
     <div class="modal-content">
-      <p>For this card, will you hit or stand?</p>
-      <button id="split-hit">Hit</button>
-      <button id="split-stand">Stand</button>
+      <p class="modal-msg">For this card, will you hit or stand?</p>
+      <div class="modal-btns">
+        <button id="split-hit" class="btn">Hit</button>
+        <button id="split-stand" class="btn">Stand</button>
+      </div>
     </div>
   </div>
 
   <div id="split-hand-modal" class="modal">
     <div class="modal-content">
-      <p id="split-hand-msg"></p>
-      <button id="split-hand">Ok</button>
+      <p id="split-hand-msg" class="modal-msg"></p>
+      <div class="modal-btns">
+        <button id="split-hand" class="btn">Ok</button>
+      </div>
     </div>
   </div>
 
   <div id="split-bust-modal" class="modal">
     <div class="modal-content">
-      <p>This hand is a bust!</p>
-      <button id="split-bust">Ok</button>
+      <p class="modal-msg">This hand is a bust!</p>
+      <div class="modal-btns">
+        <button id="split-bust" class="btn">Ok</button>
+      </div>
     </div>
   </div>
 
   <div id="hit-modal" class="modal">
     <div class="modal-content">
-      <p>Will you hit or stand?</p>
-      <button id="hit">Hit</button>
-      <button id="stand">Stand</button>
+      <p class="modal-msg">Will you hit or stand?</p>
+      <div class="modal-btns">
+        <button id="hit" class="btn">Hit</button>
+        <button id="stand" class="btn">Stand</button>
+      </div>
     </div>
   </div>
 
   <div id="play-again-modal" class="modal">
     <div class="modal-content">
-      <p id="play-again-msg"></p>
-      <button id="play-again">Play Again</button>
-      <button id="start-over">Start Over</button>
+      <p id="play-again-msg" class="modal-msg"></p>
+      <div class="modal-btns">
+        <button id="play-again" class="btn">Play Again</button>
+        <button id="start-over" class="btn">Start Over</button>
+      </div>
     </div>
   </div>
 
   <div id="bet-modal" class="modal">
     <div id="bet-modal-content" class="modal-content">
-      <p id="bet-modal-msg">Place your bet</p>
-      <input id="bet-modal-input" type="number">
-      <button id="bet-submit">Submit</button>
+      <p id="bet-modal-msg" class="modal-msg">Place your bet</p>
+      <div class="modal-btns">
+        <span id="dollar">$</span><input id="bet-modal-input" type="number">
+        <button id="bet-submit" class="btn">Submit</button>
+      </div>
     </div>
   </div>
 
