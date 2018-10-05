@@ -12,6 +12,48 @@
       background: #006622;
       color: #fff;
       font-family: sans-serif;
+      max-width: 80%;
+      margin: auto;
+    }
+
+    #table-design {
+      position: absolute;
+      text-align: center;
+      z-index: -1;
+      top: 200px;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      transform: translateX(-50%);
+    }
+
+    #rules {
+      font-family: 'Ultra', serif;
+    }
+
+    #bj {
+      font-size: 3em;
+      color: #ff751a;
+      margin: 0;
+    }
+
+    #ins {
+      border: 3px solid #ff0;
+      border-radius: 30px;
+      color: #ff0;
+    }
+
+    #ins > span {
+      padding: 0 3rem;
+    }
+
+    #hand-space {
+      width: 90px;
+      height: 160px;
+      border: 3px solid #fff;
+      border-radius: 15px;
+      margin: auto;
+      position: relative;
+      top: 70px;
     }
 
     .btn {
@@ -30,9 +72,19 @@
       margin: 2rem 0;
     }
 
+    .decor-text {
+      color: linear-gradient(#fff, #4d4d4d);
+      text-shadow: 5px 5px 0 rgba(0, 0, 0, 0.3);
+    }
+
     #stats {
       font-family: 'Ultra', serif;
       float: left;
+      text-align: center;
+    }
+
+    #stats > div {
+      margin: 5px 0;
     }
 
     .hand-title {
@@ -109,7 +161,15 @@
   </noscript>
 </head>
 <body onload="showModal()">
-  <p id="title">JavaScript Blackjack</p>
+  <p id="title" class="decor-text">JavaScript Blackjack</p>
+
+  <div id="table-design">
+    <div id="rules">
+      <p id="bj">Blackjack pays 3 to 2</p>
+      <p id="ins"><span>Pays 2 to 1</span><span>Insurance</span><span>Pays 2 to 1</span></p>
+    </div>
+    <div id="hand-space"></div>
+  </div>
 
   <div id="content">
 
@@ -125,13 +185,13 @@
     </div>
 
     <div id="table">
-      <p class="hand-title" id="dealer-cards-title">Dealer Cards</p>
+      <p class="hand-title decor-text" id="dealer-cards-title">Dealer Cards</p>
       <div id="dealer-hand" class="dealt-cards">
         <div id="dealer-card-1" class="card-space"></div>
         <div id="dealer-card-2" class="card-space"></div>
       </div>
 
-      <p class="hand-title">Player Cards</p>
+      <p class="hand-title decor-text">Player Cards</p>
       <div id="player-hand" class="dealt-cards">
         <div id="player-card-1" class="card-space"></div>
         <div id="player-card-2" class="card-space"></div>
@@ -144,9 +204,6 @@
     </div>
 
   </div>
-
-
-
 
   <div id="start-modal" class="modal">
     <div class="modal-content">
